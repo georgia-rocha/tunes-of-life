@@ -4,11 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "export": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build": "next build",
+    "start:static": "npx http-server ./export-static -c-1"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.16",
     "@reduxjs/toolkit": "^1.9.7",
     "@types/react-redux": "^7.1.27",
     "next": "^13.5.4",
