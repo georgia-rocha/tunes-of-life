@@ -1,18 +1,26 @@
+import * as React from 'react';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import { useRouter } from 'next/router'
 import { useState } from 'react';
-import Button from '@mui/material/Button';
 import 'tailwindcss/tailwind.css'
-import Image from 'next/image'
+import { GET_USER } from '../redux/actionTypes/user';
+import { itemData } from '../utils';
+import { Box } from '@mui/material';
+import Input from '@mui/material/Input';
+import { useDispatch } from 'react-redux'
 
 export default function Login() {
-  const [user, setUser] = useState({
-    name: '',
-    password: '',
-  });
-
   const [validateName, setValidateName] = useState<boolean>(false);
   const [validatePassword, setValidatePassword] = useState<boolean>(false);
   const [stateButton, setStateButton] = useState<boolean>(true);
+  const [user, setUser] = useState({
+    name: '',
+    password: '',
+    image: '',
+  });
+
+  const dispatch = useDispatch();
  
   const router = useRouter();
   
@@ -26,6 +34,8 @@ export default function Login() {
         ...prevUser,
         name: value,
       }));
+      console.log(user.name);
+      
       setValidateName(true);
     } else {
       console.error('Invalid UserName');
@@ -43,6 +53,7 @@ export default function Login() {
         ...prevUser,
         password: value,
       }));
+      console.log(user.password);
       setValidatePassword(true);
     } else {
       console.error('Invalid UserPassword');
@@ -56,35 +67,59 @@ export default function Login() {
    }
   }
   
+  const buttonSubmit = () => {
+    if (user.name && user.password) {
+      dispatch({
+        type: GET_USER,
+        payload: user,
+      });
+    }
+    router.push('/album')
+  }
+
+  const srcset = (image: string, size: number, rows = 1, cols = 1) => {
+    return {
+      src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
+      srcSet: `${image}?w=${size * cols}&h=${
+        size * rows
+      }&fit=crop&auto=format&dpr=2 2x`,
+    };
+  }
 
   return (
-  <div className="flex justify-around items-center">
-    <Image
-      src="/images/login.jpg"
-      alt="img-tela-login"
-      width={500}
-      height={500} 
-    />
-    <form className="flex flex-col">
-      <input type="text" placeholder="Digite seu Nome de Usuário"
-        className="border rounded-md p-2 w-full text-gray-700 placeholder-gray-400"
-        onChange={handleChangeName}
-      />
-      <input
-        type="password"
-        placeholder="Digite sua senha"
-        className="border rounded-md p-2 w-full text-gray-700 placeholder-gray-400"
-        onChange={handleChangePassword}
-      />
-      <Button
-        variant="contained"
+  <div className="flex justify-around items-center h-screen bg-orange-50">
+     <ImageList
+      sx={{ width: 700, height: 600 }}
+      variant="quilted"
+      cols={4}
+      rowHeight={121}
+    >
+      {itemData.map((item, index) => (
+        <ImageListItem key={index} cols={item.cols || 1} rows={item.rows || 1}>
+          <img
+            {...srcset(item.img, 121, item.rows, item.cols)}
+            alt={item.title}
+            loading="lazy"
+          />
+        </ImageListItem>
+      ))}
+    </ImageList>
+    <Box component="form"
+      noValidate
+      autoComplete="off" className="flex flex-col mr-16 -ml-8 w-80 mb-5">
+      <Input id="component-simple" onChange={handleChangeName} placeholder="Digite seu User" className="mb-5" />
+      <Input id="component-simple"  type="password" onChange={handleChangePassword} placeholder="Digite seu Password" />
+      <button
         type="submit"
+        className={`bg-yellow-900 hover:bg-yellow-800 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+          stateButton ? 'disabled:bg-gray-300 cursor-not-allowed' : ''
+        }`}
         disabled={stateButton}
-        onClick={() => router.push('/album')}
+        onClick={buttonSubmit}
       >
         Entrar
-      </Button>
-    </form>
+      </button>
+    </Box>
   </div>
-  )
-}
+  );
+};
