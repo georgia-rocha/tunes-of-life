@@ -17,7 +17,7 @@ export default function Login() {
   const [user, setUser] = useState({
     name: '',
     password: '',
-    image: 'https://i.pinimg.com/236x/95/59/fb/9559fb017297a0843a95246c21e0a567.jpg',
+    image: 'https://i.pinimg.com/736x/3c/44/5e/3c445e616be109b256a1568d6a6ce69b.jpg',
   });
 
   const dispatch = useDispatch();
@@ -34,8 +34,6 @@ export default function Login() {
         ...prevUser,
         name: value,
       }));
-      console.log(user.name);
-      
       setValidateName(true);
     } else {
       console.error('Invalid UserName');
@@ -53,7 +51,6 @@ export default function Login() {
         ...prevUser,
         password: value,
       }));
-      console.log(user.password);
       setValidatePassword(true);
     } else {
       console.error('Invalid UserPassword');

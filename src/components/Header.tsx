@@ -10,12 +10,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
 import Link from 'next/link'; 
 import 'tailwindcss/tailwind.css';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { user } = useSelector((rootReducer: any) => rootReducer.userReducer)
+  const user = useSelector((rootReducer: any) => rootReducer.userReducer);  
 
   const handleSearchToggle = () => {
     setSearchOpen(!searchOpen);
@@ -33,7 +33,7 @@ export default function Header() {
               placeholder="Pesquisar..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              sx={{ marginRight: '8px', color: 'white'}}
+              sx={{ marginRight: '0.5rem', color: 'white'}}
             />
             <IconButton color="inherit" onClick={handleSearchToggle}>
               <SearchIcon />
@@ -50,15 +50,15 @@ export default function Header() {
           </IconButton>
         </Link>
         {user && (
-          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '16px' }}>
-            <img
-              src={user.img}
-              alt="Imagem de Perfil"
-              style={{ width: '32px', height: '32px', borderRadius: '50%' }}
-            />
-            <Typography variant="body1" sx={{ marginLeft: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem' }}>
+            <Typography variant="body1" sx={{ marginRight: '0.8rem' }}>
               {user.name}
             </Typography>
+            <img
+              src={user.image}
+              alt="Perfil"
+              style={{ width: '3.1rem', height: '3.1rem', borderRadius: '50%' }}
+            />
           </div>
         )}
       </Toolbar>
