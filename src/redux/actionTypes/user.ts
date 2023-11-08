@@ -1,6 +1,10 @@
 export type actionUserType = {
   type: string,
-  payload: any
+  payload: {
+    name: string,
+    password: string,
+    image: string,
+  }
 }
 
 export const GET_USER = 'GET_USER'

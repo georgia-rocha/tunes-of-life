@@ -17,7 +17,7 @@ export default function Login() {
   const [user, setUser] = useState({
     name: '',
     password: '',
-    image: '',
+    image: 'https://i.pinimg.com/236x/95/59/fb/9559fb017297a0843a95246c21e0a567.jpg',
   });
 
   const dispatch = useDispatch();
@@ -68,6 +68,7 @@ export default function Login() {
   }
   
   const buttonSubmit = () => {
+    event?.preventDefault();
     if (user.name && user.password) {
       dispatch({
         type: GET_USER,
@@ -89,7 +90,7 @@ export default function Login() {
   return (
   <div className="flex justify-around items-center h-screen bg-orange-50">
      <ImageList
-      sx={{ width: 700, height: 600 }}
+      sx={{ width: '50vw', height: '80vh' }}
       variant="quilted"
       cols={4}
       rowHeight={121}
@@ -105,8 +106,9 @@ export default function Login() {
       ))}
     </ImageList>
     <Box component="form"
+      sx={{ width: '30vw', height: '80vh', justifyContent: 'center'}}
       noValidate
-      autoComplete="off" className="flex flex-col mr-16 -ml-8 w-80 mb-5">
+      autoComplete="off" className="flex flex-col">
       <Input id="component-simple" onChange={handleChangeName} placeholder="Digite seu User" className="mb-5" />
       <Input id="component-simple"  type="password" onChange={handleChangePassword} placeholder="Digite seu Password" />
       <button
