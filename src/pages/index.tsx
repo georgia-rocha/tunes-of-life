@@ -8,7 +8,7 @@ import { GET_USER } from '../redux/actionTypes/user';
 import { itemData } from '../utils';
 import { Box } from '@mui/material';
 import Input from '@mui/material/Input';
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 
 export default function Login() {
   const [validateName, setValidateName] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export default function Login() {
  
   const router = useRouter();
   
-  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     const regexName = /^.{4,}$/; 
     const userName = regexName.test(value);
@@ -37,11 +37,11 @@ export default function Login() {
       setValidateName(true);
     } else {
       console.error('Invalid UserName');
-    }
+    };
     updateButtonState();
-  }
+  };
 
-  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     // const regexPassword = /^(?=.*[A-Za-z0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
     const regexPassword = /^.{6,}$/;
@@ -54,35 +54,40 @@ export default function Login() {
       setValidatePassword(true);
     } else {
       console.error('Invalid UserPassword');
-    }
+    };
     updateButtonState();
-  }
+  };
 
-  const updateButtonState = () => {
+  const updateButtonState = (): void => {
    if (validateName && validatePassword) {
     setStateButton(false);
-   }
-  }
+   };
+  };
   
-  const buttonSubmit = () => {
+  const buttonSubmit = (): void => {
     event?.preventDefault();
     if (user.name && user.password) {
       dispatch({
         type: GET_USER,
         payload: user,
       });
-    }
-    router.push('/album')
-  }
+    };
+    router.push('/album');
+  };
 
-  const srcset = (image: string, size: number, rows = 1, cols = 1) => {
+  interface SrcSetType {
+    src: string;
+    srcSet: string;
+  };
+
+  const srcset = (image: string, size: number, rows = 1, cols = 1): SrcSetType => {
     return {
       src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
       srcSet: `${image}?w=${size * cols}&h=${
         size * rows
       }&fit=crop&auto=format&dpr=2 2x`,
     };
-  }
+  };
 
   return (
   <div className="flex justify-around items-center h-screen bg-orange-50">

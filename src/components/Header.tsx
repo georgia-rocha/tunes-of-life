@@ -11,14 +11,26 @@ import StarIcon from '@mui/icons-material/Star';
 import Link from 'next/link'; 
 import 'tailwindcss/tailwind.css';
 import { useSelector } from 'react-redux';
+import { SetMealRounded } from '@mui/icons-material';
+import Menu from './Menu';
 
 export default function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [menu, setMenu] = useState(false);
+
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);  
 
-  const handleSearchToggle = () => {
+  const handleSearchToggle = (): void => {
     setSearchOpen(!searchOpen);
+  };
+
+  const openMenu = (): void => {
+    setMenu(true);
+  };
+
+  const closeMenu = (): void => {
+    setMenu(false);
   };
 
   return (
@@ -50,7 +62,7 @@ export default function Header() {
           </IconButton>
         </Link>
         {user && (
-          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem', cursor: 'pointer' }} onClick={openMenu}>
             <Typography variant="body1" sx={{ marginRight: '0.8rem' }}>
               {user.name}
             </Typography>
@@ -61,7 +73,8 @@ export default function Header() {
             />
           </div>
         )}
+        { menu ? <Menu open={ menu } onClose={ closeMenu } /> : null}
       </Toolbar>
   </AppBar>
-  )
-}
+  );
+};
