@@ -9,6 +9,7 @@ import { itemData } from '../utils';
 import { Box } from '@mui/material';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
+import { SrcSetType } from '../interfaces';
 
 export default function Login() {
   const [validateName, setValidateName] = useState<boolean>(false);
@@ -73,11 +74,6 @@ export default function Login() {
       });
     };
     router.push('/album');
-  };
-
-  interface SrcSetType {
-    src: string;
-    srcSet: string;
   };
 
   const srcset = (image: string, size: number, rows = 1, cols = 1): SrcSetType => {

@@ -11,11 +11,7 @@ import List from '@mui/material/List';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GitHubIcon from '@mui/icons-material/GitHub';
-
-interface MenuProps {
-  open: boolean;
-  onClose: () => void;
-}
+import { MenuProps } from '../interfaces';
 
 export default function Menu({
   open,
