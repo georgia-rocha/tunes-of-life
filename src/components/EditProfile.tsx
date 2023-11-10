@@ -10,7 +10,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { MenuProps } from '../interfaces';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import EditIcon from '@mui/icons-material/Edit';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function EditProfile({
   open,
@@ -37,12 +37,26 @@ export default function EditProfile({
     setShowPassword(!showPassword);
   };
 
-  const handleSave = () => {
-    console.log('salvar');
+  const handleSave = (): void => {
+    event?.preventDefault();
+    if (user) {
+      dispatch({
+        type: GET_USER,
+        payload: editedUserData,
+      });
+      alert('Senha salva com sucesso!');
+    };
   };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+      <IconButton
+        aria-label="Fechar"
+        style={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
+        onClick={onClose}
+      >
+        <CloseIcon />
+      </IconButton>
       <DialogContent
         sx={{
           display: 'flex',
