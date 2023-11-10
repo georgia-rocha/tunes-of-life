@@ -12,6 +12,8 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { MenuProps } from '../interfaces';
+import { useState } from 'react';
+import EditProfile from './EditProfile';
 
 export default function Menu({
   open,
@@ -19,9 +21,16 @@ export default function Menu({
 }: MenuProps) {
 
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);
+  const [modalEdit, setModalEdit] = useState(false);
 
   const dispatch = useDispatch();
+
   const router = useRouter();
+
+  const editProfile = (): void => {
+    setModalEdit(true);
+    console.log(modalEdit);
+  };
 
   const logout = (): void => {
     if (user) {
@@ -36,34 +45,40 @@ export default function Menu({
     router.push('/')
   };
 
+  const closeModalEdit = (): void => {
+    setModalEdit(false);
+  };
+
   return (
-    <Drawer anchor="right" open={open}
-    onClose={onClose}
-    variant="temporary">
-        <List>
-          <Link href="/profile">
-            <ListItem button onClick={onClose}>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Editar Perfil" />
-            </ListItem>
-          </Link>
-          <a href="https://github.com/georgia-rocha">
-            <ListItem button onClick={onClose}>
-              <ListItemIcon>
-                <GitHubIcon />
-              </ListItemIcon>
-              <ListItemText primary="Saiba +" />
-            </ListItem>
-          </a>
-          <ListItem button onClick={logout}>
+    <Drawer
+      anchor="right"
+      open={open}
+      onClose={onClose}
+      variant="temporary"
+    >
+      <List>
+        <ListItem button onClick={editProfile}>
+          <ListItemIcon>
+            <AccountCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Editar Perfil" />
+        </ListItem>
+        <a href="https://github.com/georgia-rocha">
+          <ListItem button onClick={onClose}>
             <ListItemIcon>
-              <ExitToAppIcon />
+              <GitHubIcon />
             </ListItemIcon>
-            <ListItemText primary="Logout" />
+            <ListItemText primary="Saiba +" />
           </ListItem>
-        </List>
-      </Drawer>
+        </a>
+        <ListItem button onClick={logout}>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </List>
+      { modalEdit ? <EditProfile open={ modalEdit } onClose={ closeModalEdit }/> : null}
+    </Drawer>
   );
 };
