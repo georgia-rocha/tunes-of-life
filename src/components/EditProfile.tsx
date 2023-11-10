@@ -24,7 +24,6 @@ export default function EditProfile({
   });
   const [showPassword, setShowPassword] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isEditingImage, setIsEditingImage] = useState(false);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -53,7 +52,7 @@ export default function EditProfile({
           height: '80vh',
         }}
       >
-        <Typography variant="h5" sx={{ marginBottom: '1rem' }}>
+        <Typography variant="h5" sx={{ marginBottom: '0.5rem' }}>
           Editar Perfil
         </Typography>
         <img
@@ -63,10 +62,10 @@ export default function EditProfile({
             width: '9.3rem',
             height: '9.3rem',
             borderRadius: '50%',
-            marginBottom: '1rem',
+            marginBottom: '0.5rem',
           }}
         />
-        <label htmlFor="image-upload" style={{ cursor: 'pointer', marginBottom: '1.5rem', verticalAlign: 'middle' }}>
+        <label htmlFor="image-upload" style={{ cursor: 'pointer', marginBottom: '1rem', verticalAlign: 'middle' }}>
           <Button
             variant="outlined"
             component="span"
@@ -91,7 +90,7 @@ export default function EditProfile({
             setEditedUserData({ ...editedUserData, name: e.target.value })
           }
           fullWidth
-          sx={{ marginBottom: '1rem', maxHeight: '3rem' }} // Defina um valor máximo de altura para o TextField
+          sx={{ marginBottom: '2rem', maxHeight: '3rem' }}
         />
         <TextField
           label="Nova Senha"
@@ -110,7 +109,7 @@ export default function EditProfile({
               </InputAdornment>
             ),
           }}
-          sx={{ marginBottom: '1rem', maxHeight: '3rem' }} // Defina um valor máximo de altura para o TextField
+          sx={{ marginBottom: '1rem', maxHeight: '3rem' }}
         />
         <button
           type="submit"
