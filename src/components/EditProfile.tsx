@@ -79,16 +79,9 @@ export default function EditProfile({
             marginBottom: '0.5rem',
           }}
         />
-        <label htmlFor="image-upload" style={{ cursor: 'pointer', marginBottom: '1rem', verticalAlign: 'middle' }}>
-          <Button
-            variant="outlined"
-            component="span"
-            sx={{ color: '#3e2723', border: '1px solid #3e2723' }}
-            startIcon={<CameraAltIcon />}
-            className="hover:text-yellow-950 hover:border-yellow-950 hover:bg-orange-50"
-          >
+        <label htmlFor="image-upload" style={{ cursor: 'pointer', marginBottom: '1rem', verticalAlign: 'middle', border: '1px solid #3e2723', padding: '0.3rem', borderRadius: '0.5rem' }}>
+          <CameraAltIcon style={{ marginRight: '0.5rem' }} />
             Alterar Imagem
-          </Button>
           <input
             type="file"
             id="image-upload"
@@ -135,4 +128,4 @@ export default function EditProfile({
       </DialogContent>
     </Dialog>
   );
-}
+};
