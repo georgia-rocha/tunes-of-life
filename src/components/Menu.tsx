@@ -29,7 +29,6 @@ export default function Menu({
 
   const editProfile = (): void => {
     setModalEdit(true);
-    console.log(modalEdit);
   };
 
   const logout = (): void => {

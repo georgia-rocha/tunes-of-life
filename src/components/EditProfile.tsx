@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-import { Button, Dialog, DialogContent, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Dialog, DialogContent, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { GET_USER } from '../redux/actionTypes/user';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -26,11 +25,18 @@ export default function EditProfile({
   const [selectedImage, setSelectedImage] = useState(null);
 
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const handleImageChange = (event: any): void => {
     const file = event.target.files[0];
-    setSelectedImage(file);
+    
+    const reader = new FileReader();
+  
+    reader.onloadend = () => {
+      const imageUrl = reader.result;
+
+      setEditedUserData({ ...editedUserData, image: imageUrl });      
+    };
+    reader.readAsDataURL(file);
   };
 
   const togglePasswordVisibility = (): void => {
