@@ -8,5 +8,5 @@ export default function Album() {
       <h1>page do album do artista</h1>
     </main>
   </div>
-  )
-}
+  );
+};

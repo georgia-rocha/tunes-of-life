@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useRef} from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useRouter } from 'next/router'
@@ -24,6 +24,22 @@ export default function Login() {
   const dispatch = useDispatch();
  
   const router = useRouter();
+
+  const imageListRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const scrollToBottom = () => {
+      const scrollContainer = imageListRef.current;
+
+      if (scrollContainer) {
+        const scrollAmount = 1;
+        scrollContainer.scrollTop += scrollAmount;
+      }
+    };
+    const scrollInterval = setInterval(scrollToBottom, 1000);
+
+    return () => clearInterval(scrollInterval);
+  }, []);
   
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
@@ -79,30 +95,28 @@ export default function Login() {
   const srcset = (image: string, size: number, rows = 1, cols = 1): SrcSetType => {
     return {
       src: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format`,
-      srcSet: `${image}?w=${size * cols}&h=${
-        size * rows
-      }&fit=crop&auto=format&dpr=2 2x`,
+      srcSet: `${image}?w=${size * cols}&h=${size * rows}&fit=crop&auto=format&dpr=2 2x`,
     };
   };
 
   return (
   <div className="flex justify-around items-center h-screen bg-orange-50">
-     <ImageList
-      sx={{ width: '50vw', height: '80vh' }}
-      variant="quilted"
-      cols={4}
-      rowHeight={121}
-    >
-      {itemData.map((item, index) => (
-        <ImageListItem key={index} cols={item.cols || 1} rows={item.rows || 1}>
-          <img
-            {...srcset(item.img, 121, item.rows, item.cols)}
-            alt={item.title}
-            loading="lazy"
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
+     <div
+        ref={imageListRef}
+        style={{ width: '50vw', height: '80vh', overflow: 'hidden', scrollBehavior: 'smooth' }}
+      >
+        <ImageList variant="quilted" cols={4} rowHeight={121}>
+          {itemData.map((item, index) => (
+            <ImageListItem key={index} cols={item.cols || 1} rows={item.rows || 1}>
+              <img
+                {...srcset(item.img, 121, item.rows, item.cols)}
+                alt={item.title}
+                loading="lazy"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+      </div>
     <Box component="form"
       sx={{ width: '30vw', height: '80vh', justifyContent: 'center'}}
       noValidate
