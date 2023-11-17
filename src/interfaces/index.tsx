@@ -7,3 +7,10 @@ export interface MenuProps {
   open: boolean;
   onClose: () => void;
 };
+
+export interface SearchProps {
+  data: {
+    term: string,
+    result: []
+  }
+};

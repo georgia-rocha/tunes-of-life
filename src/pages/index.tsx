@@ -1,9 +1,9 @@
 import React, { useEffect, useRef} from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-import 'tailwindcss/tailwind.css'
+import 'tailwindcss/tailwind.css';
 import { GET_USER } from '../redux/actionTypes/user';
 import { itemData } from '../utils';
 import { Box } from '@mui/material';
@@ -89,7 +89,7 @@ export default function Login() {
         payload: user,
       });
     };
-    router.push('/album');
+    router.push('/search');
   };
 
   const srcset = (image: string, size: number, rows = 1, cols = 1): SrcSetType => {
