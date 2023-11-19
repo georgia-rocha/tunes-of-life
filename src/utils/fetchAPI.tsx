@@ -30,3 +30,16 @@ export const musicVideosAPI = async (artist: string) => {
     console.error('Erro na requisição de music videos', error);
   };
 };
+
+export const getMusics = async (id: number) => {
+  try {
+    const response = await fetch(`https://itunes.apple.com/lookup?id=${id}&entity=song`);
+    if (!response.ok) {
+      throw new Error(`Erro na requisição: ${response.statusText}`);
+    };
+    const data = await response.json();
+    return data;
+  } catch (error){
+    console.error('Erro na requisição de music videos', error);
+  };
+};
