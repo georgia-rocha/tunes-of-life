@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '@/components/Header';
-import { Avatar, Box, Container, List, ListItem, ListItemAvatar, Typography } from '@mui/material';
+import { Avatar, Box, Container, Grid, List, ListItem, ListItemAvatar, Typography } from '@mui/material';
 import { SearchProps } from '../../interfaces';
+import { FamilyRestroomRounded } from '@mui/icons-material';
 
 export default function Search() {
   const search: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
@@ -16,29 +17,33 @@ export default function Search() {
   return (
     <Box>
       <Header />
-      <Container maxWidth="md" style={{ marginTop: '0.5rem' }}>
+      <Container maxWidth={false} style={{ marginTop: '0.5rem', width: '100%' }}>
         {search && data.length > 0 ? (
-          <List>
+          <Grid container >
             <Typography variant="button" gutterBottom>
-              {`Resultado de álbuns de:  ${search.data.term}`}
+              {`Resultado de álbuns de: ${search.data.term}`}
             </Typography>
-            {data.map((term: any, index: number) => (
-              <ListItem key={index}  sx={{ '&:hover': { backgroundColor: '#efded4' } }}>
-                <ListItemAvatar>
-                  <Avatar src={term.artworkUrl100} alt={term.collectionName} sx={{ width: 70, height: 70 }}/>
-                </ListItemAvatar>
-                <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: 2 }}>
-                  <Typography variant="caption" gutterBottom>{term.wrapperType}</Typography>
-                  <Typography variant="button" gutterBottom>{term.trackName}</Typography>
-                  <Typography variant="caption" gutterBottom>{term.artistName}</Typography>
-                </Box>
-              </ListItem>
-            ))}
-          </List>
+            <Grid container spacing={2}>
+              {data.map((term: any, index: number) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 2, height: '14rem', '&:hover': { backgroundColor: '#bcaaa4' } }}>
+                    <Avatar src={term.artworkUrl100} alt={term.collectionName} sx={{ width: 75, height: 75, margin: 1 }} />
+                    <Typography variant="caption" gutterBottom>
+                      {term.artistName}
+                    </Typography>
+                    <Typography variant="button" gutterBottom sx={{ textAlign: 'center'}}>
+                      {term.collectionCensoredName}
+                    </Typography>
+                    <Typography variant="caption" gutterBottom>
+                      {term.primaryGenreName}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
         ) : (
-          <Typography variant="body1">
-            Nenhum álbum foi encontrado
-          </Typography>
+          <Typography variant="body1">Nenhum álbum foi encontrado</Typography>
         )}
       </Container>
     </Box>
