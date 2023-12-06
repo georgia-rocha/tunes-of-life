@@ -28,7 +28,7 @@ export default function Search() {
                 <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
                   <Box
                     sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 2, height: '14rem', '&:hover': { backgroundColor: '#bcaaa4' } }}
-                    onClick={() => router.push(`/album/${term.artistId}`)}
+                    onClick={() => router.push(`/album/${term.collectionId}`)}
                   >
                     <Avatar src={term.artworkUrl100} alt={term.collectionName} sx={{ width: 75, height: 75, margin: 1 }} />
                     <Typography variant="caption" gutterBottom>

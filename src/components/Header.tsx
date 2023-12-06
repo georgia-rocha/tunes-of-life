@@ -30,7 +30,6 @@ export default function Header() {
 
   const searchTerm = async (event: any) => {
     const { value } = event.target;
-    console.log(value, 'valueeeeee');
     
     try {
       const data = await allFetchAPI(value);
@@ -47,7 +46,6 @@ export default function Header() {
       console.error(error);
     }
   };
-console.log(search, 'searchhhhhh');
 
   return (
     <AppBar position="static" sx={{ background: '#3e2723' }}>
