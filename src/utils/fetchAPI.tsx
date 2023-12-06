@@ -31,7 +31,7 @@ export const musicVideosAPI = async (artist: string) => {
   };
 };
 
-export const getMusics = async (id: number) => {
+export const getMusics = async (id: string) => {
   try {
     const response = await fetch(`https://itunes.apple.com/lookup?id=${id}&entity=song`);
     if (!response.ok) {
