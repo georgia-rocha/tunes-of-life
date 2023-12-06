@@ -11,7 +11,7 @@ import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SrcSetType } from '../interfaces';
 
-export default function Login() {
+const Login: React.FC = () => {
   const [validateName, setValidateName] = useState<boolean>(false);
   const [validatePassword, setValidatePassword] = useState<boolean>(false);
   const [stateButton, setStateButton] = useState<boolean>(true);
@@ -137,3 +137,4 @@ export default function Login() {
   </div>
   );
 };
+export default Login;

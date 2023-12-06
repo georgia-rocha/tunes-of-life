@@ -5,7 +5,7 @@ import { Avatar, Box, Container, Grid, Typography } from '@mui/material';
 import { SearchProps } from '../../interfaces';
 import { useRouter } from 'next/router';
 
-export default function Search() {
+const Search: React.FC = () => {
   const search: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
   const router = useRouter();
   useEffect(() => {
@@ -52,3 +52,4 @@ export default function Search() {
     </Box>
   );
 };
+export default Search;

@@ -14,3 +14,11 @@ export interface SearchProps {
     result: []
   }
 };
+
+export interface Music {
+  id: number;
+  artistName: string;
+  collectionName: string;
+  artworkUrl100: string;
+  previewUrl: string;
+}

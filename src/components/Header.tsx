@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 import { allFetchAPI } from '../utils/fetchAPI';
 import { Avatar } from '@mui/material';
 
-export default function Header() {
+const Header: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState({term: '', result: []});
@@ -87,3 +87,5 @@ export default function Header() {
   </AppBar>
   );
 };
+
+export default Header;

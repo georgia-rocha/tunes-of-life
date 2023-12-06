@@ -15,10 +15,10 @@ import { MenuProps } from '../interfaces';
 import { useState } from 'react';
 import EditProfile from './EditProfile';
 
-export default function Menu({
+const Menu: React.FC<MenuProps> = ({
   open,
   onClose,
-}: MenuProps) {
+}) => {
 
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);
   const [modalEdit, setModalEdit] = useState(false);
@@ -81,3 +81,4 @@ export default function Menu({
     </Drawer>
   );
 };
+export default Menu;

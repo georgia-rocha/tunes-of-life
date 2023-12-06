@@ -11,10 +11,7 @@ import { MenuProps } from '../interfaces';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function EditProfile({
-  open,
-  onClose,
-}: MenuProps) {
+const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);
   const [editedUserData, setEditedUserData] = useState({
     name: user.name,
@@ -135,3 +132,5 @@ export default function EditProfile({
     </Dialog>
   );
 };
+
+export default EditProfile;
