@@ -21,4 +21,6 @@ export interface Music {
   collectionName: string;
   artworkUrl100: string;
   previewUrl: string;
+  trackId: number;
+  trackCensoredName: string;
 }
