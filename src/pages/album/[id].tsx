@@ -54,12 +54,6 @@ const Album: React.FC = () => {
       } else {
         const newAudio = new Audio(musics[index].previewUrl || '');
         newAudio.play();
-        /*  setAudio(newAudio);
-         if (isPlayingIndex !== null) {
-           const currentlyPlayingAudio = new Audio(musics[isPlayingIndex].previewUrl || '');
-           currentlyPlayingAudio.pause();
-         }
-         setIsPlayingIndex(index); */
         if (audio) {
           audio.pause();
           setIsPlayingIndex(null);
@@ -82,8 +76,8 @@ const Album: React.FC = () => {
             </Typography>
             <h1>{musics[0]?.collectionName}</h1>
             <ul>
-              {musics.slice(1).map((music, index) => (
-                <li key={music.trackId}>
+              {musics.map((music, index) => (
+                <li key={music.trackId} style={{ display: index === 0 ? 'none' : 'block' }}>
                   <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
                     <IconButton aria-label="play/pause" onClick={() => handlePlayPauseClick(index)}>
                       {isPlayingIndex === index ? (
