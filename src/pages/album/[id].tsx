@@ -15,6 +15,7 @@ const Album: React.FC = () => {
   const [musics, setMusics] = useState<Music[] | undefined>(undefined);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isPlayingIndex, setIsPlayingIndex] = useState<number | null>(null);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(''));
 
   const getMusicsApi = useCallback(async () => {
     try {
@@ -42,7 +43,32 @@ const Album: React.FC = () => {
   };
 
   const handlePlayPauseClick = (index: number) => {
-    setIsPlayingIndex(index === isPlayingIndex ? null : index);
+    if (audio && musics) {
+      if (isPlayingIndex === index) {
+        if (audio.paused) {
+          audio.play();
+        } else {
+          audio.pause();
+          setIsPlayingIndex(null);
+        }
+      } else {
+        const newAudio = new Audio(musics[index].previewUrl || '');
+        newAudio.play();
+        /*  setAudio(newAudio);
+         if (isPlayingIndex !== null) {
+           const currentlyPlayingAudio = new Audio(musics[isPlayingIndex].previewUrl || '');
+           currentlyPlayingAudio.pause();
+         }
+         setIsPlayingIndex(index); */
+        if (audio) {
+          audio.pause();
+          setIsPlayingIndex(null);
+        }
+
+        setAudio(newAudio);
+        setIsPlayingIndex(index);
+      }
+    }
   };
 
   return (
