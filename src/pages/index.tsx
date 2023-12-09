@@ -36,7 +36,7 @@ const Login: React.FC = () => {
         scrollContainer.scrollTop += scrollAmount;
       }
     };
-    const scrollInterval = setInterval(scrollToBottom, 1000);
+    const scrollInterval = setInterval(scrollToBottom, 100);
 
     return () => clearInterval(scrollInterval);
   }, []);

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Header from "@/components/Header"
 import { useRouter } from 'next/router';
 import { getMusics } from '../../utils/fetchAPI';
-import { Typography, Box, IconButton } from '@mui/material';
+import { Typography, Box, IconButton, Avatar, ListItem, List } from '@mui/material';
 import { Music } from '../../interfaces';
 import Checkbox from '@mui/material/Checkbox';
 import StarIcon from '@mui/icons-material/Star';
@@ -22,7 +22,6 @@ const Album: React.FC = () => {
       const { id } = router.query as { id: string };
       const musicData = await getMusics(id);
       setMusics(musicData.results);
-      console.log('musicsssssss', musicData.results);
     } catch (error) {
       console.error('Erro ao obter músicas:', error);
     }
@@ -32,9 +31,7 @@ const Album: React.FC = () => {
     const fetchData = async () => {
       await getMusicsApi();
       console.log(musics);
-
     };
-
     fetchData();
   }, [getMusicsApi]);
 
@@ -58,7 +55,6 @@ const Album: React.FC = () => {
           audio.pause();
           setIsPlayingIndex(null);
         }
-
         setAudio(newAudio);
         setIsPlayingIndex(index);
       }
@@ -70,15 +66,21 @@ const Album: React.FC = () => {
       <Header />
       <main>
         {musics && (
-          <>
-            <Typography variant="h4" component="h1" gutterBottom>
-              Álbum de {musics[0]?.artistName}
-            </Typography>
-            <h1>{musics[0]?.collectionName}</h1>
-            <ul>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '2rem' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' , alignItems: 'center'}}>
+              <Avatar src={musics[0].artworkUrl100} alt={musics[0].collectionName} sx={{width: '30rem', height: '30rem'}}/>
+              <Typography variant="h3" component="caption" gutterBottom sx={{marginTop: '2rem'}}>
+              {musics[0]?.collectionName}
+              </Typography>
+              <Typography variant="h6" component="h1" gutterBottom>
+                Artista {musics[0]?.artistName}
+              </Typography>
+              <Typography variant="h6" component="h1" gutterBottom>{musics[0]?.copyright}</Typography>
+            </Box>
+            <List sx={{width: '30%'}}>
               {musics.map((music, index) => (
-                <li key={music.trackId} style={{ display: index === 0 ? 'none' : 'block' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+                <ListItem key={music.trackId} style={{ display: index === 0 ? 'none' : 'block' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, '&:hover': { backgroundColor: '#bcaaa4'}}}>
                     <IconButton aria-label="play/pause" onClick={() => handlePlayPauseClick(index)}>
                       {isPlayingIndex === index ? (
                         <PauseIcon sx={{ height: 38, width: 38 }} />
@@ -92,12 +94,12 @@ const Album: React.FC = () => {
                       checked={isFavorited}
                       onChange={handleCheckboxChange}
                     />
-                    <Typography variant="subtitle1" component="div">{music.trackCensoredName}</Typography>
+                    <Typography variant="h5" component="div">{music.trackCensoredName}</Typography>
                   </Box>
-                </li>
+                </ListItem>
               ))}
-            </ul>
-          </>
+            </List>
+          </Box>
         )}
       </main>
     </div>

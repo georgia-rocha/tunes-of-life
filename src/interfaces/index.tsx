@@ -23,4 +23,5 @@ export interface Music {
   previewUrl: string;
   trackId: number;
   trackCensoredName: string;
+  copyright: string;
 }
