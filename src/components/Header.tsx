@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,7 +8,7 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
-import Link from 'next/link'; 
+import Link from 'next/link';
 import 'tailwindcss/tailwind.css';
 import { useSelector } from 'react-redux';
 import Menu from './Menu';
@@ -20,17 +20,16 @@ import { Avatar } from '@mui/material';
 const Header: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [search, setSearch] = useState({term: '', result: []});
+  const [search, setSearch] = useState({ term: '', result: [] });
 
-  const user = useSelector((rootReducer: any) => rootReducer.userReducer);  
+  const user = useSelector((rootReducer: any) => rootReducer.userReducer);
 
   const dispatch = useDispatch();
- 
-  // const router = useRouter();
+
+  const router = useRouter();
 
   const searchTerm = async (event: any) => {
     const { value } = event.target;
-    
     try {
       const data = await allFetchAPI(value);
       const obj = {
@@ -44,28 +43,39 @@ const Header: React.FC = () => {
       });
     } catch (error) {
       console.error(error);
-    }
+    };
+  };
+
+  const searchAlbuns = () => {
+    if (searchOpen) {
+      router.push('/search')
+      setSearchOpen(!searchOpen);
+    };
   };
 
   return (
     <AppBar position="static" sx={{ background: '#3e2723' }}>
-    <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        Tunes of Life
+      <Toolbar>
+        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+          Tunes of Life
         </Typography>
-        {searchOpen ? (
+        { searchOpen ? (
           <div>
             <InputBase
               placeholder="Pesquisar..."
               onChange={searchTerm}
-              sx={{ marginRight: '0.5rem', color: 'white'}}
+              sx={{
+                marginRight: '0.5rem', color: 'white', '& input': {
+                  fontSize: '1.5rem'
+                }
+              }}
             />
-            <IconButton color="inherit" onClick={() =>  setSearchOpen(!searchOpen)}>
+            <IconButton color="inherit" onClick={ searchAlbuns }>
               <SearchIcon />
             </IconButton>
           </div>
         ) : (
-          <IconButton color="inherit" onClick={() =>  setSearchOpen(!searchOpen)}>
+          <IconButton color="inherit" onClick={ () => setSearchOpen(!searchOpen) }>
             <SearchIcon />
           </IconButton>
         )}
@@ -74,17 +84,24 @@ const Header: React.FC = () => {
             <StarIcon />
           </IconButton>
         </Link>
-        {user && (
-          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem', cursor: 'pointer' }} onClick={ () => setMenu(true)}>
+        { user && (
+          <div
+            style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem', cursor: 'pointer' }}
+            onClick={() => setMenu(true)}
+          >
             <Typography variant="body1" sx={{ marginRight: '0.8rem' }}>
-              {user.name}
+              { user.name }
             </Typography>
-            <Avatar src={user.image} alt="Perfil" sx={{ width: '3.1rem', height: '3.1rem', borderRadius: '50%' }}/>
+            <Avatar
+              src={ user.image }
+              alt="Perfil"
+              sx={{ width: '3.1rem', height: '3.1rem', borderRadius: '50%' }}
+            />
           </div>
         )}
-        { menu ? <Menu open={ menu } onClose={ () => setMenu(false) } /> : null}
+        { menu ? <Menu open={menu} onClose={() => setMenu(false)} /> : null }
       </Toolbar>
-  </AppBar>
+    </AppBar>
   );
 };
 

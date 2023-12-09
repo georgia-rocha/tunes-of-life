@@ -24,7 +24,7 @@ const Album: React.FC = () => {
       setMusics(musicData.results);
     } catch (error) {
       console.error('Erro ao obter músicas:', error);
-    }
+    };
   }, [router.query]);
 
   useEffect(() => {
@@ -47,42 +47,51 @@ const Album: React.FC = () => {
         } else {
           audio.pause();
           setIsPlayingIndex(null);
-        }
+        };
       } else {
         const newAudio = new Audio(musics[index].previewUrl || '');
         newAudio.play();
         if (audio) {
           audio.pause();
           setIsPlayingIndex(null);
-        }
+        };
         setAudio(newAudio);
         setIsPlayingIndex(index);
-      }
-    }
+      };
+    };
   };
 
   return (
     <div className="flex flex-col">
       <Header />
       <main>
-        {musics && (
+        { musics && (
           <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '2rem' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' , alignItems: 'center'}}>
-              <Avatar src={musics[0].artworkUrl100} alt={musics[0].collectionName} sx={{width: '30rem', height: '30rem'}}/>
-              <Typography variant="h3" component="caption" gutterBottom sx={{marginTop: '2rem'}}>
-              {musics[0]?.collectionName}
+              <Avatar
+                src={ musics[0].artworkUrl100 }
+                alt={ musics[0].collectionName }
+                sx={{width: '30rem', height: '30rem'}}
+              />
+              <Typography
+                variant="h3"
+                component="caption"
+                gutterBottom
+                sx={{marginTop: '2rem'}}
+              >
+              { musics[0]?.collectionName }
               </Typography>
               <Typography variant="h6" component="h1" gutterBottom>
-                Artista {musics[0]?.artistName}
+                Artista { musics[0]?.artistName }
               </Typography>
-              <Typography variant="h6" component="h1" gutterBottom>{musics[0]?.copyright}</Typography>
+              <Typography variant="h6" component="h1" gutterBottom>{ musics[0]?.copyright }</Typography>
             </Box>
             <List sx={{width: '30%'}}>
-              {musics.map((music, index) => (
+              { musics.map((music, index) => (
                 <ListItem key={music.trackId} style={{ display: index === 0 ? 'none' : 'block' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1, '&:hover': { backgroundColor: '#bcaaa4'}}}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { backgroundColor: '#bcaaa4'}}}>
                     <IconButton aria-label="play/pause" onClick={() => handlePlayPauseClick(index)}>
-                      {isPlayingIndex === index ? (
+                      { isPlayingIndex === index ? (
                         <PauseIcon sx={{ height: 38, width: 38 }} />
                       ) : (
                         <PlayArrowIcon sx={{ height: 38, width: 38 }} />
