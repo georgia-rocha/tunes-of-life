@@ -20,7 +20,11 @@ const Search: React.FC = () => {
       <Container maxWidth={false} style={{ marginTop: '0.5rem', width: '100%' }}>
         {search && data.length > 0 ? (
           <Grid container >
-            <Typography variant="button" gutterBottom>
+            <Typography
+              variant="h4"
+              component="caption"
+              gutterBottom
+            >
               {`Resultado de álbuns de: ${search.data.term}`}
             </Typography>
             <Grid container spacing={2}>
