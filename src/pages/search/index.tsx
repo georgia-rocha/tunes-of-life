@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Header from '@/components/Header';
-import { Avatar, Box, Container, Grid, Typography } from '@mui/material';
+import { Avatar, Box, Container, Grid, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
 import { SearchProps } from '../../interfaces';
 import { useRouter } from 'next/router';
 
 const Search: React.FC = () => {
   const search: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
   const router = useRouter();
-  
+
   const data = search.data.result;
 
   return (
@@ -18,33 +18,34 @@ const Search: React.FC = () => {
         {search && data.length > 0 ? (
           <Grid container >
             <Typography
-              variant="h4"
+              variant="h5"
               component="caption"
               gutterBottom
             >
               {`Resultado de álbuns de: ${search.data.term}`}
             </Typography>
-            <Grid container spacing={2}>
+            <List sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 2 }}>
               {data.map((term: any, index: number) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                  <Box
-                    sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 2, height: '14rem', '&:hover': { backgroundColor: '#bcaaa4' } }}
-                    onClick={() => router.push(`/album/${term.collectionId}`)}
-                  >
-                    <Avatar src={term.artworkUrl100} alt={term.collectionName} sx={{ width: 75, height: 75, margin: 1 }} />
-                    <Typography variant="caption" gutterBottom>
-                      {term.artistName}
-                    </Typography>
-                    <Typography variant="button" gutterBottom sx={{ textAlign: 'center'}}>
-                      {term.collectionCensoredName}
-                    </Typography>
-                    <Typography variant="caption" gutterBottom>
-                      {term.primaryGenreName}
-                    </Typography>
+                <ListItem
+                  key={index}
+                  sx={{
+                    alignItems: 'center',
+                    borderRadius: 2,
+                    height: '5rem',
+                    '&:hover': { backgroundColor: '#bcaaa4', cursor: 'pointer'},
+                  }}
+                  onClick={() => router.push(`/album/${term.collectionId}`)}
+                >
+                  <ListItemAvatar>
+                    <Avatar src={term.artworkUrl100} alt={term.collectionName} sx={{ width: 55, height: 55, margin: 1 }} />
+                  </ListItemAvatar>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', gap: 1 }}>
+                    <Typography variant="button">{term.collectionCensoredName}</Typography>
+                    <Typography variant="caption">{term.artistName}</Typography>
                   </Box>
-                </Grid>
+                </ListItem>
               ))}
-            </Grid>
+            </List>
           </Grid>
         ) : (
           <Typography variant="body1">Nenhum álbum foi encontrado</Typography>
