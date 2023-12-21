@@ -1,16 +1,15 @@
 import { GET_FAVORITES } from '../actionTypes/favorites';
 
 const initialState = {
-  data: {
-  }
+  data: [],
 };
 
 const favoritesReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case GET_FAVORITES:
       return {
-        ...initialState,
-        data: action.payload,
+        ...state,
+        data: [ ...action.payload ],
       }
     default:
       return state
