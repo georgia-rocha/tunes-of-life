@@ -8,9 +8,6 @@ import { useRouter } from 'next/router';
 const Search: React.FC = () => {
   const search: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
   const router = useRouter();
-  useEffect(() => {
-    console.log(search, 'dataaaaa');
-  }, [search]);
   
   const data = search.data.result;
 
