@@ -1,7 +1,7 @@
 export type actionFavoritesType = {
   type: string,
   payload: {
-   term: [],
+   data: [],
   }
 }
 
