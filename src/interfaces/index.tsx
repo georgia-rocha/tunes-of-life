@@ -27,6 +27,5 @@ export interface Music {
 }
 
 export interface CardMusicProps {
-  musics: Music[] | undefined,
-  trackId: number,
+  musics: Music[],
 };
