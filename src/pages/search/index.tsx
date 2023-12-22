@@ -12,7 +12,7 @@ const Search: React.FC = () => {
   const data = search.data.result;
 
   return (
-    <Box>
+    <Box sx={{ background: '#eceff1', height: '100vh' }}>
       <Header />
       <Container maxWidth={false} style={{ marginTop: '0.5rem', width: '100%' }}>
         {search && data.length > 0 ? (
@@ -24,7 +24,12 @@ const Search: React.FC = () => {
             >
               {`Resultado de álbuns de: ${search.data.term}`}
             </Typography>
-            <List sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 2 }}>
+            <List sx={{
+              display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 2, overflow: 'auto', height: '83vh', '&::-webkit-scrollbar': {
+                width: '0.5rem',
+                background: 'none',
+              },
+            }}>
               {data.map((term: any, index: number) => (
                 <ListItem
                   key={index}
@@ -32,7 +37,7 @@ const Search: React.FC = () => {
                     alignItems: 'center',
                     borderRadius: 2,
                     height: '5rem',
-                    '&:hover': { backgroundColor: '#bcaaa4', cursor: 'pointer'},
+                    '&:hover': { backgroundColor: '#A9A9A9', cursor: 'pointer' },
                   }}
                   onClick={() => router.push(`/album/${term.collectionId}`)}
                 >
