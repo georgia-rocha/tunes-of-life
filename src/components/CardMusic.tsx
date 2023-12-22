@@ -8,19 +8,23 @@ import PauseIcon from '@mui/icons-material/Pause';
 import { useDispatch } from 'react-redux';
 import { GET_FAVORITES } from '@/redux/actionTypes/favorites';
 import { useSelector } from 'react-redux';
-import { CardMusicProps } from '../interfaces'
+import { CardMusicProps, Music } from '../interfaces';
+import { useRouter } from 'next/router';
 
 const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
 
   const [isPlayingIndex, setIsPlayingIndex] = useState<number | null>(null);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(''));
   const [checkedState, setCheckedState] = useState<boolean[]>(musics ? new Array(musics.length).fill(false) : []);
-  const selectedFavorites = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
+  const selectedFavorites: Music[] = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
 
   const dispatch = useDispatch();
 
+  const router = useRouter();
+  const currentPath = router.pathname;
+
   const handleChecked = (checkedId: number) => {
-    return selectedFavorites.some((favorite: CardMusicProps) => favorite.trackId === checkedId);
+    return selectedFavorites.some((favorite: Music) => favorite.trackId === checkedId);
   };
 
   const handleCheckboxChange = (index: number) => {
@@ -95,7 +99,7 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
     }}
     >
       {musics && musics.map((music, index) => (
-        <ListItem key={music.trackId} style={{ display: index === 0 ? 'none' : 'block', padding: 0, cursor: 'pointer' }}>
+        <ListItem key={music.trackId} style={{ display: (currentPath.includes("/album")) && index === 0  ? 'none' : 'block', padding: 0, cursor: 'pointer' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { backgroundColor: '#A9A9A9' } }}>
             <IconButton aria-label="play/pause" onClick={() => handlePlayPauseClick(index)}>
               {isPlayingIndex === index ? (
