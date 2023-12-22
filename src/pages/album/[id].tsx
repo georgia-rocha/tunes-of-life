@@ -28,19 +28,19 @@ const Album: React.FC = () => {
   }, [getMusicsApi]);
 
   return (
-    <div className="flex flex-col">
+    <Box sx={{display: 'flex', flexDirection: 'column', background: '#eceff1', height:'100vh'}}>
       <Header />
       <main>
         { musics && (
           <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '2rem' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' , alignItems: 'center'}}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' , alignItems: 'center', width: '30rem'}}>
               <Avatar
                 src={ musics[0].artworkUrl100 }
                 alt={ musics[0].collectionName }
-                sx={{width: '30rem', height: '30rem'}}
+                sx={{width: '20rem', height: '20rem'}}
               />
               <Typography
-                variant="h3"
+                variant="h4"
                 component="caption"
                 gutterBottom
                 sx={{marginTop: '2rem'}}
@@ -50,13 +50,13 @@ const Album: React.FC = () => {
               <Typography variant="h6" component="h1" gutterBottom>
                 Artista { musics[0]?.artistName }
               </Typography>
-              <Typography variant="h6" component="h1" gutterBottom>{ musics[0]?.copyright }</Typography>
+              <Typography variant="caption" component="h1" gutterBottom sx={{textAlign: 'center'}}>{ musics[0]?.copyright }</Typography>
             </Box>
             <CardMusic musics={musics}/>
           </Box>
         )}
       </main>
-    </div>
+    </Box>
   );
 };
 export default Album;
