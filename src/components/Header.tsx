@@ -53,8 +53,14 @@ const Header: React.FC = () => {
     };
   };
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      searchAlbuns();
+    }
+  };
+
   return (
-    <AppBar position="static" sx={{ background: '#3e2723' }}>
+    <AppBar position="static" sx={{ background: '#1C1C1C' }}>
       <Toolbar>
         <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
           Tunes of Life
@@ -64,9 +70,10 @@ const Header: React.FC = () => {
             <InputBase
               placeholder="Pesquisar..."
               onChange={searchTerm}
+              onKeyDown={handleKeyDown}
               sx={{
                 marginRight: '0.5rem', color: 'white', '& input': {
-                  fontSize: '1.5rem'
+                  fontSize: '1rem'
                 }
               }}
             />
@@ -86,7 +93,7 @@ const Header: React.FC = () => {
         </Link>
         { user && (
           <div
-            style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem', cursor: 'pointer' }}
+            className='flex items-center ml-1 cursor-pointer'
             onClick={() => setMenu(true)}
           >
             <Typography variant="body1" sx={{ marginRight: '0.8rem' }}>
