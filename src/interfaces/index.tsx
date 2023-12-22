@@ -25,3 +25,8 @@ export interface Music {
   trackCensoredName: string;
   copyright: string;
 }
+
+export interface CardMusicProps {
+  musics: Music[] | undefined,
+  trackId: number,
+};
