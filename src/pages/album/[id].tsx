@@ -8,7 +8,7 @@ import CardMusic from '@/components/CardMusic';
 
 const Album: React.FC = () => {
   const router = useRouter();
-  const [musics, setMusics] = useState<Music[] | undefined>(undefined);
+  const [musics, setMusics] = useState<Music[]>([]);
 
   const getMusicsApi = useCallback(async () => {
     try {
@@ -31,7 +31,7 @@ const Album: React.FC = () => {
     <Box sx={{display: 'flex', flexDirection: 'column', background: '#eceff1', height:'100vh'}}>
       <Header />
       <main>
-        { musics && (
+        { musics && musics.length > 0 && (
           <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '2rem' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' , alignItems: 'center', width: '30rem'}}>
               <Avatar
