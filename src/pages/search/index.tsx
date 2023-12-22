@@ -53,7 +53,13 @@ const Search: React.FC = () => {
             </List>
           </Grid>
         ) : (
-          <Typography variant="body1">Nenhum álbum foi encontrado</Typography>
+          <Typography
+            variant="h5"
+            component="caption"
+            gutterBottom
+          >
+            Nenhum álbum foi encontrado
+          </Typography>
         )}
       </Container>
     </Box>
