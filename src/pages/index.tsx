@@ -6,7 +6,7 @@ import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { GET_USER } from '../redux/actionTypes/user';
 import { itemData } from '../utils';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SrcSetType } from '../interfaces';
@@ -118,10 +118,19 @@ const Login: React.FC = () => {
           ))}
         </ImageList>
       </Box>
-    <Box component="form"
-      sx={{ width: '30vw', height: '80vh', justifyContent: 'center'}}
+    <Box 
+      component="form"
+      sx={{ width: '30vw', height: '80vh', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}
       noValidate
-      autoComplete="off" className="flex flex-col">
+      autoComplete="off"
+    >
+      <Typography
+        variant="h5"
+        sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', color: '#1C1C1C' }}
+        gutterBottom
+      >
+        Tunes of Life
+      </Typography>
       <Input id="component-simple" onChange={handleChangeName} placeholder="Digite seu User" className="mb-5" />
       <Input id="component-simple"  type="password" onChange={handleChangePassword} placeholder="Digite seu Password" />
       <button
