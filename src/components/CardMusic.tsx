@@ -1,6 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { Typography, Box, IconButton, Avatar, ListItem, List } from '@mui/material';
-import { Music } from '../../src/interfaces';
+import React, { useState } from 'react';
+import { Typography, Box, IconButton, ListItem, List } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
@@ -9,29 +8,20 @@ import PauseIcon from '@mui/icons-material/Pause';
 import { useDispatch } from 'react-redux';
 import { GET_FAVORITES } from '@/redux/actionTypes/favorites';
 import { useSelector } from 'react-redux';
+import { CardMusicProps } from '../interfaces'
 
-interface CardMusicProps {
-  musics: Music[] | undefined,
-};
-
-const CardMusic: React.FC<CardMusicProps> = ({ musics  }) => {
+const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
 
   const [isPlayingIndex, setIsPlayingIndex] = useState<number | null>(null);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(''));
-  
   const [checkedState, setCheckedState] = useState<boolean[]>(musics ? new Array(musics.length).fill(false) : []);
- 
   const selectedFavorites = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
 
   const dispatch = useDispatch();
 
   const handleChecked = (checkedId: number) => {
-    console.log({checkedId});
-    
-    console.log({selectedFavorites});
-    
-    return selectedFavorites.some((favorite) => favorite.trackId === checkedId);
-  }
+    return selectedFavorites.some((favorite: CardMusicProps) => favorite.trackId === checkedId);
+  };
 
   const handleCheckboxChange = (index: number) => {
     const newCheckedState = [...checkedState];
@@ -42,14 +32,14 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics  }) => {
 
     if (isAlreadyFavorited) {
       const updatedFavorites = selectedFavorites.filter((music) => music.trackId !== musics[index].trackId);
-           
+
       dispatch({
         type: GET_FAVORITES,
         payload: updatedFavorites,
       });
     } else {
       const updatedFavorites = [...selectedFavorites, musics[index]]
- 
+
       dispatch({
         type: GET_FAVORITES,
         payload: updatedFavorites,
@@ -81,12 +71,34 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics  }) => {
   };
 
   return (
-    <List sx={{width: '30%'}}>
-      { musics && musics.map((music, index) => (
-        <ListItem key={music.trackId} style={{ display: index === 0 ? 'none' : 'block' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { backgroundColor: '#bcaaa4'}}}>
+    <List
+    sx={{
+      width: '40%',
+      height: '80vh',
+      overflow: 'auto',
+      '&::-webkit-scrollbar': {
+        width: '0.5rem',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#eceff1',
+        borderRadius: '8px',
+        transition: 'background-color 0.3s',
+      },
+      '&::-webkit-scrollbar-track': {
+        backgroundColor: '#f1f1f1',
+      },
+      '&:hover': {
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#4a4a4a',
+        },
+      },
+    }}
+    >
+      {musics && musics.map((music, index) => (
+        <ListItem key={music.trackId} style={{ display: index === 0 ? 'none' : 'block', padding: 0, cursor: 'pointer' }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { backgroundColor: '#A9A9A9' } }}>
             <IconButton aria-label="play/pause" onClick={() => handlePlayPauseClick(index)}>
-              { isPlayingIndex === index ? (
+              {isPlayingIndex === index ? (
                 <PauseIcon sx={{ height: 38, width: 38 }} />
               ) : (
                 <PlayArrowIcon sx={{ height: 38, width: 38 }} />
@@ -96,14 +108,14 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics  }) => {
               icon={<StarOutlineIcon />}
               checkedIcon={<StarIcon />}
               checked={handleChecked(music.trackId)}
-              onChange={ () => handleCheckboxChange(index) }
+              onChange={() => handleCheckboxChange(index)}
               sx={{
                 '&.Mui-checked': {
                   color: 'rgba(0, 0, 0, 0.54)',
                 },
               }}
             />
-            <Typography variant="h5" component="div">{music.trackCensoredName}</Typography>
+            <Typography variant="button" component="div">{music.trackCensoredName}</Typography>
           </Box>
         </ListItem>
       ))}
