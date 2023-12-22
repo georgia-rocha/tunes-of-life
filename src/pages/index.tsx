@@ -6,10 +6,11 @@ import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { GET_USER } from '../redux/actionTypes/user';
 import { itemData } from '../utils';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SrcSetType } from '../interfaces';
+import { styled } from '@mui/system'; 
 
 const Login: React.FC = () => {
   const [validateName, setValidateName] = useState<boolean>(false);
@@ -100,10 +101,10 @@ const Login: React.FC = () => {
   };
 
   return (
-  <div className="flex justify-around items-center h-screen bg-orange-50">
-     <div
+    <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#eceff1', height: '100vh'}}>
+     <Box
         ref={imageListRef}
-        style={{ width: '50vw', height: '80vh', overflow: 'hidden', scrollBehavior: 'smooth' }}
+        sx={{ width: '50vw', height: '80vh', overflow: 'hidden', scrollBehavior: 'smooth' }}
       >
         <ImageList variant="quilted" cols={4} rowHeight={121}>
           {itemData.map((item, index) => (
@@ -116,7 +117,7 @@ const Login: React.FC = () => {
             </ImageListItem>
           ))}
         </ImageList>
-      </div>
+      </Box>
     <Box component="form"
       sx={{ width: '30vw', height: '80vh', justifyContent: 'center'}}
       noValidate
@@ -125,7 +126,7 @@ const Login: React.FC = () => {
       <Input id="component-simple"  type="password" onChange={handleChangePassword} placeholder="Digite seu Password" />
       <button
         type="submit"
-        className={`bg-yellow-900 hover:bg-yellow-800 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+        className={`bg-slate-800 hover:bg-slate-700 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
           stateButton ? 'disabled:bg-gray-300 cursor-not-allowed' : ''
         }`}
         disabled={stateButton}
@@ -134,7 +135,7 @@ const Login: React.FC = () => {
         Entrar
       </button>
     </Box>
-  </div>
+  </Box>
   );
 };
 export default Login;
