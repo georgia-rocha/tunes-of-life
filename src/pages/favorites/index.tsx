@@ -12,14 +12,13 @@ const Favorites: React.FC = () => {
   return (
     <Box sx={ {display: 'flex', flexDirection: 'column', background: '#eceff1', height:'100vh' } }>
       <Header />
-      <Box sx={ {display: 'flex', justifyContent: 'space-around', marginTop: '3rem' } }>
-        <Avatar src={ fractalFavoritePage } alt='fractal' sx={{width: '32rem', height: '32rem' } }/>
+      <Box sx={ {display: 'flex', justifyContent: 'space-around', marginTop: '1rem', alignItems: 'center' } }>
+        <Avatar src={ fractalFavoritePage } alt='fractal' sx={{width: '30rem', height: '30rem', borderRadius: '50%', marginTop: '1.5rem' } }/>
         { favorites.length === 0 ? (
           <Typography
-          variant="h4"
-          component="caption"
-          gutterBottom
-          sx={ { marginTop: '2rem' } }
+            variant="h5"
+            component="caption"
+            gutterBottom
           >
             Nenhuma música favorita encontrada
           </Typography>
