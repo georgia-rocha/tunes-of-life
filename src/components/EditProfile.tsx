@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Dialog, DialogContent, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Avatar, Dialog, DialogContent, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
@@ -67,22 +67,22 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
           alignItems: 'center',
           padding: '1.5rem',
           height: '80vh',
+          '&::-webkit-scrollbar': {
+            width: '0.5rem',
+            background: 'none',
+          }
         }}
       >
         <Typography variant="h5" sx={{ marginBottom: '0.5rem' }}>
           Editar Perfil
         </Typography>
-        <img
+        <Avatar
           src={selectedImage ? URL.createObjectURL(selectedImage) : editedUserData.image}
           alt="Perfil"
-          style={{
-            width: '9.3rem',
-            height: '9.3rem',
-            borderRadius: '50%',
-            marginBottom: '0.5rem',
-          }}
+          sx={{ width: '10rem', height: '10rem', borderRadius: '50%', marginBottom: '0.8rem' }}
         />
-        <label htmlFor="image-upload" style={{ cursor: 'pointer', marginBottom: '1rem', verticalAlign: 'middle', border: '1px solid #3e2723', padding: '0.3rem', borderRadius: '0.5rem' }}>
+        <label htmlFor="image-upload"
+          className='cursor-pointer text-slate-800 mb-4 flex items-center border border-solid border-gray-800 p-3 rounded-md'>
           <CameraAltIcon style={{ marginRight: '0.5rem' }} />
             Alterar Imagem
           <input
@@ -122,12 +122,12 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
           sx={{ marginBottom: '1rem', maxHeight: '3rem' }}
         />
         <button
-          type="submit"
-          className="bg-yellow-900 hover:bg-yellow-800 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          onClick={handleSave}
-        >
-          Salvar
-        </button>
+        type="submit"
+        className={`bg-slate-800 hover:bg-slate-700 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+        onClick={handleSave}
+      >
+        Entrar
+      </button>
       </DialogContent>
     </Dialog>
   );
