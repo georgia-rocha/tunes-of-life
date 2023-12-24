@@ -17,15 +17,18 @@ const Search: React.FC = () => {
       <Container maxWidth={false} style={{ marginTop: '0.5rem', width: '100%' }}>
         {search && data.length > 0 ? (
           <Grid container >
-            <Typography
+            { search.data.term.length > 1 && (
+              <Typography
               variant="h5"
               component="caption"
               gutterBottom
             >
               {`Resultado de álbuns de: ${search.data.term}`}
-            </Typography>
+            </Typography> ) 
+            }
+            
             <List sx={{
-              display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 2, overflow: 'auto', height: '83vh', '&::-webkit-scrollbar': {
+              display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 2, overflow: 'auto', height: '88vh', '&::-webkit-scrollbar': {
                 width: '0.5rem',
                 background: 'none',
               },
@@ -55,8 +58,8 @@ const Search: React.FC = () => {
         ) : (
           <Typography
             variant="h5"
-            component="caption"
             gutterBottom
+            sx={{ width: '80vw', textAlign: 'center', padding: '1rem' }}
           >
             Nenhum álbum foi encontrado
           </Typography>
