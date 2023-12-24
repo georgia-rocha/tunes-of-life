@@ -15,22 +15,6 @@ export const allFetchAPI = async (term: string) => {
   };
 };
 
-export const musicVideosAPI = async (artist: string) => {
-  try {
-    const apiUrl = `https://itunes.apple.com/search?term=${artist}&entity=musicVideo`;
-    const response = await fetch(apiUrl);
-    
-    if (!response.ok) {
-      throw new Error(`Erro na requisição: ${response.statusText}`);
-    };
-
-    const data = await response.json();
-    return data;
-  } catch (error){
-    console.error('Erro na requisição de music videos', error);
-  };
-};
-
 export const getMusics = async (id: string) => {
   try {
     const response = await fetch(`https://itunes.apple.com/lookup?id=${id}&entity=song`);
