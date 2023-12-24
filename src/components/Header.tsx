@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -28,8 +28,27 @@ const Header: React.FC = () => {
 
   const router = useRouter();
 
+  useEffect(() => {
+    const handleLetterSearch = async () => {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const indexLetter = Math.floor(Math.random() * alphabet.length);
+      const data = await allFetchAPI(alphabet.charAt(indexLetter));
+      const obj = {
+        term: alphabet.charAt(indexLetter),
+        result: data,
+      };
+      dispatch({
+        type: GET_SEARCH,
+        payload: obj,
+      });
+    };
+
+    handleLetterSearch();
+  }, []);
+
   const searchTerm = async (event: any) => {
     const { value } = event.target;
+
     try {
       const data = await allFetchAPI(value);
       const obj = {
