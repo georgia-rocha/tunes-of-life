@@ -1,21 +1,18 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
 import Link from 'next/link';
-import 'tailwindcss/tailwind.css';
 import { useSelector } from 'react-redux';
 import Menu from './Menu';
 import { GET_SEARCH } from '@/redux/actionTypes/search';
 import { useDispatch } from 'react-redux';
 import { allFetchAPI } from '../utils/fetchAPI';
-import { Avatar } from '@mui/material';
+import { AppBarHeader, TittleHeader, InputSearch, AvatarHeader, BoxContainer, TypographyName } from '../styles/Header';
+import { Box } from '@mui/material';
 
 const Header: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -30,21 +27,23 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     const handleLetterSearch = async () => {
-      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      const indexLetter = Math.floor(Math.random() * alphabet.length);
-      const data = await allFetchAPI(alphabet.charAt(indexLetter));
-      const obj = {
-        term: alphabet.charAt(indexLetter),
-        result: data,
-      };
-      dispatch({
-        type: GET_SEARCH,
-        payload: obj,
-      });
+      if (!search.term.trim() && !search.result.length) {
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const indexLetter = Math.floor(Math.random() * alphabet.length);
+        const data = await allFetchAPI(alphabet.charAt(indexLetter));
+        const obj = {
+          term: alphabet.charAt(indexLetter),
+          result: data,
+        };
+        dispatch({
+          type: GET_SEARCH,
+          payload: obj,
+        });
+      }
     };
 
     handleLetterSearch();
-  }, []);
+  }, [search.term]);
 
   const searchTerm = async (event: any) => {
     const { value } = event.target;
@@ -79,29 +78,33 @@ const Header: React.FC = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ background: '#1C1C1C' }}>
+    <AppBarHeader>
       <Toolbar>
-        <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+        <TittleHeader
+          variant="h5"
+          onClick={() => router.push('/search')}
+        >
           Tunes of Life
-        </Typography>
+        </TittleHeader>
         { searchOpen ? (
-          <div>
-            <InputBase
+          <Box>
+            <InputSearch
               placeholder="Pesquisar..."
               onChange={searchTerm}
               onKeyDown={handleKeyDown}
-              sx={{
-                marginRight: '0.5rem', color: 'white', '& input': {
-                  fontSize: '1rem'
-                }
-              }}
             />
-            <IconButton color="inherit" onClick={ searchAlbuns }>
+            <IconButton
+              color="inherit"
+              onClick={ searchAlbuns }
+            >
               <SearchIcon />
             </IconButton>
-          </div>
+          </Box>
         ) : (
-          <IconButton color="inherit" onClick={ () => setSearchOpen(!searchOpen) }>
+          <IconButton
+            color="inherit"
+            onClick={ () => setSearchOpen(!searchOpen) }
+          >
             <SearchIcon />
           </IconButton>
         )}
@@ -111,23 +114,21 @@ const Header: React.FC = () => {
           </IconButton>
         </Link>
         { user && (
-          <div
-            className='flex items-center ml-1 cursor-pointer'
+          <BoxContainer
             onClick={() => setMenu(true)}
           >
-            <Typography variant="body1" sx={{ marginRight: '0.8rem' }}>
+            <TypographyName variant="body1">
               { user.name }
-            </Typography>
-            <Avatar
+            </TypographyName>
+            <AvatarHeader
               src={ user.image }
               alt="Perfil"
-              sx={{ width: '3.1rem', height: '3.1rem', borderRadius: '50%' }}
             />
-          </div>
+          </BoxContainer>
         )}
         { menu ? <Menu open={menu} onClose={() => setMenu(false)} /> : null }
       </Toolbar>
-    </AppBar>
+    </AppBarHeader>
   );
 };
 
