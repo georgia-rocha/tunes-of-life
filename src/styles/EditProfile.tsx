@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Box, DialogContent, IconButton, InputBase, TextField, Typography } from "@mui/material";
+import { Avatar, DialogContent, IconButton, TextField, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 
 export const IconButtonEdit = styled(IconButton)<{ component?: React.ElementType }>({
@@ -9,7 +9,7 @@ export const DialogEdit = styled(DialogContent)<{ component?: React.ElementType 
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  padding: '1.5rem',
+  padding: '1rem',
   height: '80vh',
   '&::-webkit-scrollbar': {
     width: '0.5rem',
@@ -22,7 +22,7 @@ export const Tittle = styled(Typography)<{ component?: React.ElementType }>({
 });
 
 export const AvatarEdit = styled(Avatar)<{ component?: React.ElementType }>({
-  width: '10rem', height: '10rem', borderRadius: '50%', marginBottom: '0.8rem'
+  width: '8rem', height: '8rem', borderRadius: '50%', marginBottom: '0.8rem'
 });
 
 export const TextFieldEdit = styled(TextField)<{ component?: React.ElementType }>({

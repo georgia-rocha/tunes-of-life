@@ -11,7 +11,7 @@ export const BoxFavorite = styled(Box)<{ component?: React.ElementType }>({
 export const AvatarFavorite = styled(Avatar)<{ component?: React.ElementType }>({
   borderRadius: '50%',
   height: '30rem',
-  marginTop: '1.5rem',
+  marginTop: '1rem',
   width: '30rem',
 });
 
