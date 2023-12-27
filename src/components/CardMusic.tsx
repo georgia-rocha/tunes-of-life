@@ -100,7 +100,7 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
               aria-label="play/pause"
               onClick={() => handlePlayPauseClick(index)}
             >
-              {isPlayingIndex === index ? (
+              {audio?.src === music.previewUrl ? (
                 <Pause />
               ) : (
                 <Play />
