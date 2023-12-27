@@ -29,3 +29,8 @@ export interface Music {
 export interface CardMusicProps {
   musics: Music[],
 };
+
+export interface ListItemCardProps {
+  currentPath: string;
+  index: number;
+}
