@@ -14,6 +14,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { MenuProps } from '../interfaces';
 import { useState } from 'react';
 import EditProfile from './EditProfile';
+import { GET_FAVORITES } from '@/redux/actionTypes/favorites';
 
 const Menu: React.FC<MenuProps> = ({
   open,
@@ -39,6 +40,10 @@ const Menu: React.FC<MenuProps> = ({
           name: '',
           password: '',
         },
+      });
+      dispatch({
+        type: GET_FAVORITES,
+        payload: [],
       });
     }
     router.push('/')
