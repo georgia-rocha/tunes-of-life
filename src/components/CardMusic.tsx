@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
-import { Typography, Box, IconButton, ListItem, List } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
+import React, { useState, useEffect } from 'react';
+import { Typography, IconButton } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
 import { useDispatch } from 'react-redux';
 import { GET_FAVORITES } from '@/redux/actionTypes/favorites';
 import { useSelector } from 'react-redux';
 import { CardMusicProps, Music } from '../interfaces';
 import { useRouter } from 'next/router';
+import { ListContainer, BoxContainer, Pause, Play, CheckboxCard,ListItemCard } from '../styles/CardMusic';
 
 const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
 
@@ -17,7 +15,7 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(''));
   const [checkedState, setCheckedState] = useState<boolean[]>(musics ? new Array(musics.length).fill(false) : []);
   const selectedFavorites: Music[] = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
-
+  
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -71,59 +69,59 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
         setAudio(newAudio);
         setIsPlayingIndex(index);
       };
-    };
+    }
   };
 
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (audio) {
+        audio.pause();
+        setIsPlayingIndex(null);
+      }
+    };
+
+    router.events.on('routeChangeComplete', handleRouteChange);
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router.events, audio]);
+
   return (
-    <List
-    sx={{
-      width: '40%',
-      height: '80vh',
-      overflow: 'auto',
-      '&::-webkit-scrollbar': {
-        width: '0.5rem',
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: '#eceff1',
-        borderRadius: '8px',
-        transition: 'background-color 0.3s',
-      },
-      '&::-webkit-scrollbar-track': {
-        backgroundColor: '#f1f1f1',
-      },
-      '&:hover': {
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: '#4a4a4a',
-        },
-      },
-    }}
-    >
+    <ListContainer>
       {musics && musics.map((music, index) => (
-        <ListItem key={music.trackId} style={{ display: (currentPath.includes("/album")) && index === 0  ? 'none' : 'block', padding: 0, cursor: 'pointer' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', '&:hover': { backgroundColor: '#A9A9A9' } }}>
-            <IconButton aria-label="play/pause" onClick={() => handlePlayPauseClick(index)}>
+        <ListItemCard
+          key={music.trackId}
+          currentPath={currentPath}
+          index={index}
+        >
+          <BoxContainer>
+            <IconButton
+              aria-label="play/pause"
+              onClick={() => handlePlayPauseClick(index)}
+            >
               {isPlayingIndex === index ? (
-                <PauseIcon sx={{ height: 38, width: 38 }} />
+                <Pause />
               ) : (
-                <PlayArrowIcon sx={{ height: 38, width: 38 }} />
+                <Play />
               )}
             </IconButton>
-            <Checkbox
+            <CheckboxCard
               icon={<StarOutlineIcon />}
               checkedIcon={<StarIcon />}
               checked={handleChecked(music.trackId)}
               onChange={() => handleCheckboxChange(index)}
-              sx={{
-                '&.Mui-checked': {
-                  color: 'rgba(0, 0, 0, 0.54)',
-                },
-              }}
             />
-            <Typography variant="button" component="div">{music.trackCensoredName}</Typography>
-          </Box>
-        </ListItem>
+            <Typography
+              variant="button"
+              component="div"
+            >
+              {music.trackCensoredName}
+            </Typography>
+          </BoxContainer>
+        </ListItemCard>
       ))}
-    </List>
+    </ListContainer>
   );
 };
 
