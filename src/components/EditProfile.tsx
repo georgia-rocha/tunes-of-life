@@ -1,6 +1,5 @@
 import * as React from 'react';
-
-import { Avatar, Dialog, DialogContent, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Dialog, IconButton, InputAdornment } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
@@ -10,6 +9,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { MenuProps } from '../interfaces';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CloseIcon from '@mui/icons-material/Close';
+import { IconButtonEdit, AvatarEdit, DialogEdit, TextFieldEdit, Tittle } from '../styles/EditProfile';
+import '../app/globals.css';
 
 const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);
@@ -52,37 +53,28 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <IconButton
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+    >
+      <IconButtonEdit
         aria-label="Fechar"
-        style={{ position: 'absolute', top: 8, right: 8, zIndex: 1 }}
         onClick={onClose}
       >
         <CloseIcon />
-      </IconButton>
-      <DialogContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '1.5rem',
-          height: '80vh',
-          '&::-webkit-scrollbar': {
-            width: '0.5rem',
-            background: 'none',
-          }
-        }}
-      >
-        <Typography variant="h5" sx={{ marginBottom: '0.5rem' }}>
+      </IconButtonEdit>
+      <DialogEdit>
+        <Tittle variant="h5">
           Editar Perfil
-        </Typography>
-        <Avatar
+        </Tittle>
+        <AvatarEdit
           src={selectedImage ? URL.createObjectURL(selectedImage) : editedUserData.image}
           alt="Perfil"
-          sx={{ width: '10rem', height: '10rem', borderRadius: '50%', marginBottom: '0.8rem' }}
         />
         <label htmlFor="image-upload"
-          className='cursor-pointer text-slate-800 mb-4 flex items-center border border-solid border-gray-800 p-3 rounded-md'>
+          className="label-container">
           <CameraAltIcon style={{ marginRight: '0.5rem' }} />
             Alterar Imagem
           <input
@@ -93,16 +85,15 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
             style={{ display: 'none' }}
           />
         </label>
-        <TextField
+        <TextFieldEdit
           label="Nome"
           value={editedUserData.name}
           onChange={(e) =>
             setEditedUserData({ ...editedUserData, name: e.target.value })
           }
           fullWidth
-          sx={{ marginBottom: '2rem', maxHeight: '3rem' }}
         />
-        <TextField
+        <TextFieldEdit
           label="Nova Senha"
           type={showPassword ? 'text' : 'password'}
           value={editedUserData.password}
@@ -119,16 +110,15 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
               </InputAdornment>
             ),
           }}
-          sx={{ marginBottom: '1rem', maxHeight: '3rem' }}
         />
         <button
-        type="submit"
-        className={`bg-slate-800 hover:bg-slate-700 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-        onClick={handleSave}
-      >
-        Entrar
-      </button>
-      </DialogContent>
+          type="submit"
+          className="button-edit"
+          onClick={handleSave}
+        >
+          Salvar
+        </button>
+      </DialogEdit>
     </Dialog>
   );
 };
