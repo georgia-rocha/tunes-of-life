@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useRouter } from 'next/router';
@@ -10,7 +10,8 @@ import { Box, Button, Typography } from '@mui/material';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SrcSetType } from '../interfaces';
-import { styled } from '@mui/system'; 
+import '../app/globals.css';
+import { BoxForm, BoxImage, LoginContainer, Tittle } from '../styles/Login';
 
 const Login: React.FC = () => {
   const [validateName, setValidateName] = useState<boolean>(false);
@@ -23,7 +24,7 @@ const Login: React.FC = () => {
   });
 
   const dispatch = useDispatch();
- 
+
   const router = useRouter();
 
   const imageListRef = useRef<HTMLDivElement | null>(null);
@@ -41,20 +42,21 @@ const Login: React.FC = () => {
 
     return () => clearInterval(scrollInterval);
   }, []);
-  
+
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
-    const regexName = /^.{4,}$/; 
+    const regexName = /^.{4,}$/;
     const userName = regexName.test(value);
-    
+
     if (userName) {
       setUser((prevUser) => ({
         ...prevUser,
         name: value,
       }));
-      setValidateName(true);
+      setValidateName(userName);
     } else {
       console.error('Invalid UserName');
+      setValidateName(false);
     };
     updateButtonState();
   };
@@ -62,26 +64,29 @@ const Login: React.FC = () => {
   const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     // const regexPassword = /^(?=.*[A-Za-z0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
-    const regexPassword = /^.{6,}$/;
+    const regexPassword = /^.{5,}$/;
     const userPassword = regexPassword.test(value);
     if (userPassword) {
       setUser((prevUser) => ({
         ...prevUser,
         password: value,
       }));
-      setValidatePassword(true);
+      setValidatePassword(userPassword);
     } else {
       console.error('Invalid UserPassword');
+      setValidatePassword(false);
     };
     updateButtonState();
   };
 
   const updateButtonState = (): void => {
-   if (validateName && validatePassword) {
-    setStateButton(false);
-   };
+    if (validateName && validatePassword) {      
+      setStateButton(false);
+    } else {
+      setStateButton(true);
+    }
   };
-  
+
   const buttonSubmit = (): void => {
     event?.preventDefault();
     if (user.name && user.password) {
@@ -100,11 +105,14 @@ const Login: React.FC = () => {
     };
   };
 
+  useEffect(() => {
+    updateButtonState();
+  }, [validateName, validatePassword]);
+  
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', background: '#eceff1', height: '100vh'}}>
-     <Box
+    <LoginContainer>
+      <BoxImage
         ref={imageListRef}
-        sx={{ width: '50vw', height: '80vh', overflow: 'hidden', scrollBehavior: 'smooth' }}
       >
         <ImageList variant="quilted" cols={4} rowHeight={121}>
           {itemData.map((item, index) => (
@@ -117,34 +125,36 @@ const Login: React.FC = () => {
             </ImageListItem>
           ))}
         </ImageList>
-      </Box>
-    <Box 
-      component="form"
-      sx={{ width: '30vw', height: '80vh', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}
-      noValidate
-      autoComplete="off"
-    >
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: 'bold', marginBottom: '20px', textAlign: 'center', color: '#1C1C1C' }}
-        gutterBottom
+      </BoxImage>
+      <BoxForm
+        component="form"
       >
-        Tunes of Life
-      </Typography>
-      <Input id="component-simple" onChange={handleChangeName} placeholder="Digite seu User" className="mb-5" />
-      <Input id="component-simple"  type="password" onChange={handleChangePassword} placeholder="Digite seu Password" />
-      <button
-        type="submit"
-        className={`bg-slate-800 hover:bg-slate-700 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-          stateButton ? 'disabled:bg-gray-300 cursor-not-allowed' : ''
-        }`}
-        disabled={stateButton}
-        onClick={buttonSubmit}
-      >
-        Entrar
-      </button>
-    </Box>
-  </Box>
+        <Tittle
+          variant="h5"
+          gutterBottom
+        >
+          Tunes of Life
+        </Tittle>
+        <Input
+          onChange={handleChangeName}
+          placeholder="Digite seu User"
+          className="mb-5"
+        />
+        <Input
+          type="password"
+          onChange={handleChangePassword}
+          placeholder="Digite seu Password"
+        />
+        <button
+          type="submit"
+          className={`button-login ${stateButton ? 'button-disabled' : ''}`}
+          disabled={stateButton}
+          onClick={buttonSubmit}
+        >
+          Entrar
+        </button>
+      </BoxForm>
+    </LoginContainer>
   );
 };
 export default Login;
