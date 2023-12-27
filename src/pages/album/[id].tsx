@@ -2,9 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Header from "@/components/Header"
 import { useRouter } from 'next/router';
 import { getMusics } from '../../utils/fetchAPI';
-import { Typography, Box, Avatar } from '@mui/material';
+import { Typography } from '@mui/material';
 import { Music } from '../../interfaces';
 import CardMusic from '@/components/CardMusic';
+import {BoxAlbum, BoxAlbumContainer, BoxConatiner, AvatarAlbum, TypographyAlbum, TypographyCopyright } from '../../styles/Album';
 
 const Album: React.FC = () => {
   const router = useRouter();
@@ -28,35 +29,39 @@ const Album: React.FC = () => {
   }, [getMusicsApi]);
 
   return (
-    <Box sx={{display: 'flex', flexDirection: 'column', background: '#eceff1', height:'100vh'}}>
+    <BoxConatiner>
       <Header />
       <main>
         { musics && musics.length > 0 && (
-          <Box sx={{ display: 'flex', justifyContent: 'space-around', marginTop: '2rem' }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' , alignItems: 'center', width: '30rem'}}>
-              <Avatar
+          <BoxAlbum >
+            <BoxAlbumContainer>
+              <AvatarAlbum
                 src={ musics[0].artworkUrl100 }
                 alt={ musics[0].collectionName }
-                sx={{width: '20rem', height: '20rem'}}
               />
-              <Typography
+              <TypographyAlbum
                 variant="h4"
                 component="caption"
                 gutterBottom
-                sx={{marginTop: '2rem'}}
               >
               { musics[0]?.collectionName }
-              </Typography>
+              </TypographyAlbum>
               <Typography variant="h6" component="h1" gutterBottom>
                 Artista { musics[0]?.artistName }
               </Typography>
-              <Typography variant="caption" component="h1" gutterBottom sx={{textAlign: 'center'}}>{ musics[0]?.copyright }</Typography>
-            </Box>
+              <TypographyCopyright
+                variant="caption"
+                component="h1"
+                gutterBottom
+              >
+                { musics[0]?.copyright }
+              </TypographyCopyright>
+            </BoxAlbumContainer>
             <CardMusic musics={musics}/>
-          </Box>
+          </BoxAlbum>
         )}
       </main>
-    </Box>
+    </BoxConatiner>
   );
 };
 export default Album;
