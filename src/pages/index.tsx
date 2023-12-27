@@ -6,17 +6,19 @@ import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { GET_USER } from '../redux/actionTypes/user';
 import { itemData } from '../utils';
-import { Box, Button, Typography } from '@mui/material';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SrcSetType } from '../interfaces';
 import '../app/globals.css';
 import { BoxForm, BoxImage, LoginContainer, Tittle } from '../styles/Login';
+import { GET_SEARCH } from '@/redux/actionTypes/search';
+import { allFetchAPI } from '../utils/fetchAPI';
 
 const Login: React.FC = () => {
   const [validateName, setValidateName] = useState<boolean>(false);
   const [validatePassword, setValidatePassword] = useState<boolean>(false);
   const [stateButton, setStateButton] = useState<boolean>(true);
+  const [search, setSearch] = useState({ term: '', result: [] });
   const [user, setUser] = useState({
     name: '',
     password: '',
@@ -45,7 +47,7 @@ const Login: React.FC = () => {
 
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
-    const regexName = /^.{4,}$/;
+    const regexName = /^.{3,}$/;
     const userName = regexName.test(value);
 
     if (userName) {
@@ -87,6 +89,22 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleLetterSearch = async () => {
+    if (!search.result.length) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const indexLetter = Math.floor(Math.random() * alphabet.length);
+      const data = await allFetchAPI(alphabet.charAt(indexLetter));
+      const obj = {
+        term: alphabet.charAt(indexLetter),
+        result: data,
+      };
+      dispatch({
+        type: GET_SEARCH,
+        payload: obj,
+      });
+    }
+  };
+
   const buttonSubmit = (): void => {
     event?.preventDefault();
     if (user.name && user.password) {
@@ -95,6 +113,7 @@ const Login: React.FC = () => {
         payload: user,
       });
     };
+    handleLetterSearch();
     router.push('/search');
   };
 

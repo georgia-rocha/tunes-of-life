@@ -25,26 +25,6 @@ const Header: React.FC = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    const handleLetterSearch = async () => {
-      if (!search.term.trim() && !search.result.length) {
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const indexLetter = Math.floor(Math.random() * alphabet.length);
-        const data = await allFetchAPI(alphabet.charAt(indexLetter));
-        const obj = {
-          term: alphabet.charAt(indexLetter),
-          result: data,
-        };
-        dispatch({
-          type: GET_SEARCH,
-          payload: obj,
-        });
-      }
-    };
-
-    handleLetterSearch();
-  }, [search.term]);
-
   const searchTerm = async (event: any) => {
     const { value } = event.target;
 
