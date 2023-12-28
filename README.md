@@ -72,6 +72,11 @@ Certifique-se de ter instalado em seu computador:
   - npm: Normalmente é instalado automaticamente com o Node.js.
   - [Git](https://git-scm.com/doc)
 
+## Como Começar
+
+1. Clone este repositório.
+2. Instale as dependências usando `npm install`.
+3. Inicie o servidor de desenvolvimento com `npm run dev`.
 
 ## Scripts
 
@@ -117,11 +122,5 @@ Certifique-se de ter instalado em seu computador:
 - **tailwindcss**: Um framework CSS utilitário.
 - **http-server**: Um servidor HTTP simples de linha de comando e sem configuração.
 </details>
-
-## Como Começar
-
-1. Clone este repositório.
-2. Instale as dependências usando `npm install`.
-3. Inicie o servidor de desenvolvimento com `npm run dev`.
 
 Sinta-se à vontade para explorar e contribuir para o projeto Tunes of Life!
