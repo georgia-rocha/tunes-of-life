@@ -20,6 +20,7 @@ const Favorites: React.FC = () => {
             variant="h5"
             component="caption"
             gutterBottom
+            sx={{ width: '40%' }}
           >
             Nenhuma música favorita encontrada
           </Typography>
