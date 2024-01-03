@@ -14,11 +14,12 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { MenuProps } from '../interfaces';
 import { useState } from 'react';
 import EditProfile from './EditProfile';
+import { GET_FAVORITES } from '@/redux/actionTypes/favorites';
 
-export default function Menu({
+const Menu: React.FC<MenuProps> = ({
   open,
   onClose,
-}: MenuProps) {
+}) => {
 
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);
   const [modalEdit, setModalEdit] = useState(false);
@@ -39,6 +40,10 @@ export default function Menu({
           name: '',
           password: '',
         },
+      });
+      dispatch({
+        type: GET_FAVORITES,
+        payload: [],
       });
     }
     router.push('/')
@@ -81,3 +86,4 @@ export default function Menu({
     </Drawer>
   );
 };
+export default Menu;

@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import {  store } from '../redux/store'; 
  
-export default function App({ Component, pageProps }: AppProps) {
+const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
   <>
     <style>
@@ -18,3 +18,4 @@ export default function App({ Component, pageProps }: AppProps) {
   </>
   );
 };
+export default App;

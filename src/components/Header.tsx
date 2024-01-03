@@ -1,36 +1,33 @@
 import * as React from 'react';
-// import { useRouter } from 'next/router';
-import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
-import Link from 'next/link'; 
-import 'tailwindcss/tailwind.css';
+import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import Menu from './Menu';
 import { GET_SEARCH } from '@/redux/actionTypes/search';
 import { useDispatch } from 'react-redux';
 import { allFetchAPI } from '../utils/fetchAPI';
-import { Avatar } from '@mui/material';
+import { AppBarHeader, TittleHeader, InputSearch, AvatarHeader, BoxContainer, TypographyName } from '../styles/Header';
+import { Box } from '@mui/material';
 
-export default function Header() {
+const Header: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menu, setMenu] = useState(false);
-  const [search, setSearch] = useState({term: '', result: []});
+  const [search, setSearch] = useState({ term: '', result: [] });
 
-  const user = useSelector((rootReducer: any) => rootReducer.userReducer);  
+  const user = useSelector((rootReducer: any) => rootReducer.userReducer);
 
   const dispatch = useDispatch();
- 
-  // const router = useRouter();
+
+  const router = useRouter();
 
   const searchTerm = async (event: any) => {
     const { value } = event.target;
-    
+
     try {
       const data = await allFetchAPI(value);
       const obj = {
@@ -44,28 +41,50 @@ export default function Header() {
       });
     } catch (error) {
       console.error(error);
+    };
+  };
+
+  const searchAlbuns = () => {
+    if (searchOpen) {
+      router.push('/search')
+      setSearchOpen(!searchOpen);
+    };
+  };
+
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Enter') {
+      searchAlbuns();
     }
   };
 
   return (
-    <AppBar position="static" sx={{ background: '#3e2723' }}>
-    <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        Tunes of Life
-        </Typography>
-        {searchOpen ? (
-          <div>
-            <InputBase
+    <AppBarHeader>
+      <Toolbar>
+        <TittleHeader
+          variant="h5"
+          onClick={() => router.push('/search')}
+        >
+          Tunes of Life
+        </TittleHeader>
+        { searchOpen ? (
+          <Box>
+            <InputSearch
               placeholder="Pesquisar..."
               onChange={searchTerm}
-              sx={{ marginRight: '0.5rem', color: 'white'}}
+              onKeyDown={handleKeyDown}
             />
-            <IconButton color="inherit" onClick={() =>  setSearchOpen(!searchOpen)}>
+            <IconButton
+              color="inherit"
+              onClick={ searchAlbuns }
+            >
               <SearchIcon />
             </IconButton>
-          </div>
+          </Box>
         ) : (
-          <IconButton color="inherit" onClick={() =>  setSearchOpen(!searchOpen)}>
+          <IconButton
+            color="inherit"
+            onClick={ () => setSearchOpen(!searchOpen) }
+          >
             <SearchIcon />
           </IconButton>
         )}
@@ -74,16 +93,23 @@ export default function Header() {
             <StarIcon />
           </IconButton>
         </Link>
-        {user && (
-          <div style={{ display: 'flex', alignItems: 'center', marginLeft: '0.2rem', cursor: 'pointer' }} onClick={ () => setMenu(true)}>
-            <Typography variant="body1" sx={{ marginRight: '0.8rem' }}>
-              {user.name}
-            </Typography>
-            <Avatar src={user.image} alt="Perfil" sx={{ width: '3.1rem', height: '3.1rem', borderRadius: '50%' }}/>
-          </div>
+        { user && (
+          <BoxContainer
+            onClick={() => setMenu(true)}
+          >
+            <TypographyName variant="body1">
+              { user.name }
+            </TypographyName>
+            <AvatarHeader
+              src={ user.image }
+              alt="Perfil"
+            />
+          </BoxContainer>
         )}
-        { menu ? <Menu open={ menu } onClose={ () => setMenu(false) } /> : null}
+        { menu ? <Menu open={menu} onClose={() => setMenu(false)} /> : null }
       </Toolbar>
-  </AppBar>
+    </AppBarHeader>
   );
 };
+
+export default Header;
