@@ -1,5 +1,13 @@
 # Tunes of Life
 
+## Video de Demonstração
+
+<video width="320" height="240" controls>
+  <source src='video.mp4' type="video/mp4">
+  Seu navegador não suporta o elemento de vídeo.
+</video>
+
+
 ## Visão Geral
 
 Tunes of Life é uma aplicação web construída utilizando Next.js, React e Redux para gerenciar e explorar uma API de músicas. Este projeto está na versão 0.1.0 e atualmente está em desenvolvimento privado.
