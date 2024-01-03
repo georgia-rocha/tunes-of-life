@@ -71,6 +71,7 @@ Certifique-se de ter instalado em seu computador:
   - [Node.js](https://nodejs.org/docs/latest/api/)
   - npm: Normalmente é instalado automaticamente com o Node.js.
   - [Git](https://git-scm.com/doc)
+  - [Next](https://nextjs.org/docs/getting-started/installation)
 
 ## Como Começar
 
