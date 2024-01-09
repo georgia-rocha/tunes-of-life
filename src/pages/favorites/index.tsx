@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
 import { Music } from '../../interfaces';
@@ -8,8 +8,21 @@ import { fractalFavoritePage } from '../../utils';
 import { BoxFavorite, AvatarFavorite, BoxContainer } from '../../styles/Favorites';
 
 const Favorites: React.FC = () => {
-  const favorites: Music[] = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
+  const [favorites, setFavorites] = useState<Music[]>([]);
+  const favoritesState: Music[] = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
+  const favoritesLocalStorage = typeof window !== 'undefined' ?  JSON.parse(localStorage.getItem('favorites') || 'null') : null;
 
+  const getFavorites = () => {
+    if (favoritesState){
+      setFavorites(favoritesState);      
+    }    
+    setFavorites(favoritesLocalStorage);
+  };
+ 
+  useEffect(() => {
+    getFavorites();
+  }, [favoritesLocalStorage, favoritesState]);
+  
   return (
     <BoxFavorite>
       <Header />
