@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "export": "next build && next export",
-    "start": "next start",
+    "start": "next build && next start",
     "lint": "next lint",
     "build": "next build",
     "start:static": "npx http-server ./export-static -c-1"
