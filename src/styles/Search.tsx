@@ -8,6 +8,7 @@ export const BoxSearch = styled(Box)<{ component?: React.ElementType }>({
 
 export const ContainerSearch = styled(Container)<{ component?: React.ElementType }>({
   marginTop: '0.5rem',
+  color: '#1C1C1C',
   width: '100%'
 });
 

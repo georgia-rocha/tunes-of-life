@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Menu from './Menu';
 import { GET_SEARCH } from '@/redux/actionTypes/search';
@@ -13,17 +13,31 @@ import { useDispatch } from 'react-redux';
 import { allFetchAPI } from '../utils/fetchAPI';
 import { AppBarHeader, TittleHeader, InputSearch, AvatarHeader, BoxContainer, TypographyName } from '../styles/Header';
 import { Box } from '@mui/material';
+import { UserType } from '@/interfaces';
 
 const Header: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState({ term: '', result: [] });
+  const userFromState = useSelector((rootReducer: any) => rootReducer.userReducer);
+  const userFromLocalStorage = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || 'null') : null;
 
-  const user = useSelector((rootReducer: any) => rootReducer.userReducer);
-
+  const [user, setUser] = useState<UserType>();
+  
   const dispatch = useDispatch();
 
   const router = useRouter();
+
+  const getUser = () => {
+    if (userFromState){
+      setUser(userFromState);
+    }
+    setUser(userFromLocalStorage);
+  };
+ 
+  useEffect(() => {
+    getUser();
+  }, [userFromLocalStorage, userFromState]);
 
   const searchTerm = async (event: any) => {
     const { value } = event.target;
@@ -70,8 +84,8 @@ const Header: React.FC = () => {
           <Box>
             <InputSearch
               placeholder="Pesquisar..."
-              onChange={searchTerm}
-              onKeyDown={handleKeyDown}
+              onChange={ searchTerm }
+              onKeyDown={ handleKeyDown }
             />
             <IconButton
               color="inherit"
@@ -88,11 +102,9 @@ const Header: React.FC = () => {
             <SearchIcon />
           </IconButton>
         )}
-        <Link href="/favorites">
-          <IconButton color="inherit">
-            <StarIcon />
-          </IconButton>
-        </Link>
+        <Box onClick={() => router.push('/favorites')}>
+          <StarIcon />
+        </Box>
         { user && (
           <BoxContainer
             onClick={() => setMenu(true)}

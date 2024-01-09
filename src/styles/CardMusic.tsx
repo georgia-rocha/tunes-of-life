@@ -9,6 +9,7 @@ export const ListContainer = styled(List)<{ component?: React.ElementType }>({
   width: '40%',
   height: '80vh',
   overflow: 'auto',
+  color: '#1C1C1C',
   '&::-webkit-scrollbar': {
     width: '0.5rem',
   },

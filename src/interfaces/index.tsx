@@ -34,3 +34,9 @@ export interface ListItemCardProps {
   currentPath: string;
   index: number;
 }
+
+export interface UserType {
+  name: string;
+  password: string;
+  image: string;
+}
