@@ -9,12 +9,13 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { MenuProps } from '../interfaces';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import CloseIcon from '@mui/icons-material/Close';
+import { useLocalStorage } from 'usehooks-ts'
 import { IconButtonEdit, AvatarEdit, DialogEdit, TextFieldEdit, Tittle } from '../styles/EditProfile';
 import '../app/globals.css';
 
 const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
   const user = useSelector((rootReducer: any) => rootReducer.userReducer);
-  const [editedUserData, setEditedUserData] = useState({
+  const [editedUserData, setEditedUserData] = useLocalStorage('user', {
     name: user.name,
     password: user.password,
     image: user.image,
@@ -48,8 +49,7 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
         type: GET_USER,
         payload: editedUserData,
       });
-      localStorage.removeItem('user');
-      localStorage.setItem('user', JSON.stringify(editedUserData));
+      setEditedUserData(editedUserData);
     };
   };
 

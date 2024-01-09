@@ -10,19 +10,21 @@ import Menu from './Menu';
 import { GET_SEARCH } from '@/redux/actionTypes/search';
 import { useDispatch } from 'react-redux';
 import { allFetchAPI } from '../utils/fetchAPI';
-import { AppBarHeader, TittleHeader, InputSearch, AvatarHeader, BoxContainer, TypographyName } from '../styles/Header';
+import { AppBarHeader, InputSearch, AvatarHeader, BoxContainer, TypographyName, TittleHeader } from '../styles/Header';
 import { Box } from '@mui/material';
 import { UserType } from '@/interfaces';
+import { useLocalStorage } from 'usehooks-ts'
 
 const Header: React.FC = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState({ term: '', result: [] });
   const userFromState = useSelector((rootReducer: any) => rootReducer.userReducer);
-  const userFromLocalStorage = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('user') || 'null') : null;
+  const [user, setUser] = useLocalStorage<UserType>('user', { 
+    name: '',
+    password: '',
+    image: '' })
 
-  const [user, setUser] = useState<UserType>();
-  
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -31,12 +33,12 @@ const Header: React.FC = () => {
     if (userFromState){
       setUser(userFromState);
     }
-    setUser(userFromLocalStorage);
+    setUser(user);
   };
  
   useEffect(() => {
     getUser();
-  }, [userFromLocalStorage, userFromState]);
+  }, [user?.name]);
 
   const searchTerm = async (event: any) => {
     const { value } = event.target;

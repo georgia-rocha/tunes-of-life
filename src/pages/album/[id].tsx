@@ -11,7 +11,7 @@ const Album: React.FC = () => {
   const router = useRouter();
   const [musics, setMusics] = useState<Music[]>([]);
 
-  const getMusicsApi = useCallback(async () => {
+  const getMusicsApi = async () => {
     try {
       const { id } = router.query as { id: string };
       const musicData = await getMusics(id);
@@ -19,14 +19,14 @@ const Album: React.FC = () => {
     } catch (error) {
       console.error('Erro ao obter músicas:', error);
     };
-  }, [router.query]);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       await getMusicsApi();
     };
     fetchData();
-  }, [getMusicsApi]);
+  }, [router.query]);
 
   return (
     <BoxConatiner>
