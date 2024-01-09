@@ -102,7 +102,14 @@ const Login: React.FC = () => {
         type: GET_SEARCH,
         payload: obj,
       });
-    }
+      const savedData = {
+        data: {
+          term: obj.term,
+          result: obj.result,
+        }
+      };
+      localStorage.setItem('search', JSON.stringify(savedData));
+    };
   };
 
   const buttonSubmit = (): void => {
@@ -112,6 +119,7 @@ const Login: React.FC = () => {
         type: GET_USER,
         payload: user,
       });
+      localStorage.setItem('user', JSON.stringify(user));
     };
     handleLetterSearch();
     router.push('/search');
