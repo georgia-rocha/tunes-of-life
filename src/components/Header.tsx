@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import StarIcon from '@mui/icons-material/Star';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Menu from './Menu';
 import { GET_SEARCH } from '@/redux/actionTypes/search';
