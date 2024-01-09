@@ -48,7 +48,8 @@ const EditProfile: React.FC<MenuProps> = ({ open, onClose }) => {
         type: GET_USER,
         payload: editedUserData,
       });
-      alert('Senha salva com sucesso!');
+      localStorage.removeItem('user');
+      localStorage.setItem('user', JSON.stringify(editedUserData));
     };
   };
 
