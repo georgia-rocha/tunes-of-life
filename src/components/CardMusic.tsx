@@ -39,6 +39,8 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
         type: GET_FAVORITES,
         payload: updatedFavorites,
       });
+
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
     } else {
       const updatedFavorites = [...selectedFavorites, musics[index]]
 
@@ -46,8 +48,8 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
         type: GET_FAVORITES,
         payload: updatedFavorites,
       });
+      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
     };
-
   };
 
   const handlePlayPauseClick = (index: number) => {
