@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '@/components/Header';
 import { Grid, ListItemAvatar, Typography } from '@mui/material';
@@ -7,8 +7,23 @@ import { useRouter } from 'next/router';
 import { BoxSearch, ContainerSearch, ListSearch, ListItemSearch, AvatarSearch, BoxList, TypographyList } from '../../styles/Search';
 
 const Search: React.FC = () => {
-  const search: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
-  const data = search.data.result;
+  const searchState: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
+  const searchLocalStorage = typeof window !== 'undefined' ?  JSON.parse(localStorage.getItem('search') || 'null') : null;
+  
+  const [search, setSearch] = useState<SearchProps>({ data: { term: '', result: [] } });
+
+  const getSearch = () => {
+    if (searchState){
+      setSearch(searchState);      
+    }    
+    setSearch(searchLocalStorage);
+  };
+ 
+  useEffect(() => {
+    getSearch();
+  }, [searchState, searchLocalStorage]);
+
+  const data = search?.data?.result;
   
   const router = useRouter();
 
@@ -16,7 +31,7 @@ const Search: React.FC = () => {
     <BoxSearch>
       <Header />
       <ContainerSearch maxWidth={false}>
-        {search && data.length > 0 ? (
+        {search && data && data.length > 0 ? (
           <Grid container >
             { search.data.term.length > 1 && (
               <Typography
@@ -29,7 +44,7 @@ const Search: React.FC = () => {
             }
             
             <ListSearch>
-              {data.map((term: any, index: number) => (
+              {data?.map((term: any, index: number) => (
                 <ListItemSearch
                   key={index}
                   onClick={() => router.push(`/album/${term.collectionId}`)}
