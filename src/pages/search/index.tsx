@@ -21,7 +21,7 @@ const Search: React.FC = () => {
  
   useEffect(() => {
     getSearch();
-  }, [searchState, searchLocalStorage]);
+  }, [search?.data?.term]);
 
   const data = search?.data?.result;
   

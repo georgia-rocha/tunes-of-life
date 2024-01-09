@@ -8,14 +8,14 @@ import { useSelector } from 'react-redux';
 import { CardMusicProps, Music } from '../interfaces';
 import { useRouter } from 'next/router';
 import { ListContainer, BoxContainer, Pause, Play, CheckboxCard,ListItemCard } from '../styles/CardMusic';
+import { useLocalStorage } from 'usehooks-ts'
 
 const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
 
   const [isPlayingIndex, setIsPlayingIndex] = useState<number | null>(null);
   const [audio, setAudio] = useState<HTMLAudioElement | null>(new Audio(''));
   const [checkedState, setCheckedState] = useState<boolean[]>(musics ? new Array(musics.length).fill(false) : []);
-  const selectedFavorites: Music[] = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
-  
+  const [selectedFavorites, setSelectedFavorites] = useLocalStorage<Music[]>('favorites', [])
   const dispatch = useDispatch();
 
   const router = useRouter();
@@ -31,24 +31,21 @@ const CardMusic: React.FC<CardMusicProps> = ({ musics }) => {
     setCheckedState(newCheckedState);
 
     const isAlreadyFavorited = selectedFavorites.some((music) => music.trackId === musics[index].trackId);
-
     if (isAlreadyFavorited) {
       const updatedFavorites = selectedFavorites.filter((music) => music.trackId !== musics[index].trackId);
-
       dispatch({
         type: GET_FAVORITES,
         payload: updatedFavorites,
       });
 
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+      setSelectedFavorites(updatedFavorites)
     } else {
       const updatedFavorites = [...selectedFavorites, musics[index]]
-
       dispatch({
         type: GET_FAVORITES,
         payload: updatedFavorites,
       });
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+      setSelectedFavorites(updatedFavorites)
     };
   };
 

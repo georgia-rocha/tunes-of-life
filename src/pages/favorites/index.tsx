@@ -6,29 +6,29 @@ import CardMusic from '@/components/CardMusic';
 import Header from '@/components/Header';
 import { fractalFavoritePage } from '../../utils';
 import { BoxFavorite, AvatarFavorite, BoxContainer } from '../../styles/Favorites';
+import { useLocalStorage } from 'usehooks-ts'
 
 const Favorites: React.FC = () => {
-  const [favorites, setFavorites] = useState<Music[]>([]);
   const favoritesState: Music[] = useSelector((rootReducer: any) => rootReducer.favoritesReducer.data);
-  const favoritesLocalStorage = typeof window !== 'undefined' ?  JSON.parse(localStorage.getItem('favorites') || 'null') : null;
+  const [favs, setFavs] = useLocalStorage<Music[]>('favorites', []);
 
   const getFavorites = () => {
     if (favoritesState){
-      setFavorites(favoritesState);      
+      setFavs(favoritesState);      
     }    
-    setFavorites(favoritesLocalStorage);
+    setFavs(favs);
   };
  
   useEffect(() => {
     getFavorites();
-  }, [favoritesLocalStorage, favoritesState]);
+  }, [favs.length]);
   
   return (
     <BoxFavorite>
       <Header />
       <BoxContainer >
         <AvatarFavorite src={fractalFavoritePage} alt='fractal' />
-        {favorites.length === 0 ? (
+        {favs.length === 0 ? (
           <Typography
             variant="h5"
             component="caption"
@@ -37,7 +37,7 @@ const Favorites: React.FC = () => {
           >
             Nenhuma música favorita encontrada
           </Typography>
-        ) : <CardMusic musics={favorites} />
+        ) : <CardMusic musics={favs} />
         }
       </BoxContainer>
     </BoxFavorite>
