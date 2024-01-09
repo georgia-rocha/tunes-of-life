@@ -18,6 +18,7 @@ const Album: React.FC = () => {
       setMusics(musicData.results);
     } catch (error) {
       console.error('Erro ao obter músicas:', error);
+      setMusics([])
     };
   };
 
@@ -32,33 +33,35 @@ const Album: React.FC = () => {
     <BoxConatiner>
       <Header />
       <main>
-        { musics && musics.length > 0 && (
-          <BoxAlbum >
-            <BoxAlbumContainer>
-              <AvatarAlbum
-                src={ musics[0].artworkUrl100 }
-                alt={ musics[0].collectionName }
-              />
-              <TypographyAlbum
-                variant="h4"
-                component="caption"
-                gutterBottom
-              >
-              { musics[0]?.collectionName }
-              </TypographyAlbum>
-              <Typography variant="h6" component="h1" gutterBottom>
-                Artista { musics[0]?.artistName }
-              </Typography>
-              <TypographyCopyright
-                variant="caption"
-                component="h1"
-                gutterBottom
-              >
-                { musics[0]?.copyright }
-              </TypographyCopyright>
-            </BoxAlbumContainer>
-            <CardMusic musics={musics}/>
-          </BoxAlbum>
+        { musics && (
+          musics.length > 0 ?
+            <BoxAlbum >
+              <BoxAlbumContainer>
+                <AvatarAlbum
+                  src={ musics[0].artworkUrl100 }
+                  alt={ musics[0].collectionName }
+                />
+                <TypographyAlbum
+                  variant="h4"
+                  component="caption"
+                  gutterBottom
+                >
+                { musics[0]?.collectionName }
+                </TypographyAlbum>
+                <Typography variant="h6" component="h1" gutterBottom>
+                  Artista { musics[0]?.artistName }
+                </Typography>
+                <TypographyCopyright
+                  variant="caption"
+                  component="h1"
+                  gutterBottom
+                >
+                  { musics[0]?.copyright }
+                </TypographyCopyright>
+              </BoxAlbumContainer>
+              <CardMusic musics={musics}/>
+            </BoxAlbum>
+            : <p>Nenhum álbum encontrado.</p>
         )}
       </main>
     </BoxConatiner>
