@@ -19,6 +19,7 @@ export const BoxAlbumContainer = styled(Box)<{ component?: React.ElementType }>(
   display: 'flex',
   flexDirection: 'column',
   width: '30rem',
+  color: '#1C1C1C'
 });
 
 export const AvatarAlbum = styled(Avatar)<{ component?: React.ElementType }>({
@@ -27,9 +28,11 @@ export const AvatarAlbum = styled(Avatar)<{ component?: React.ElementType }>({
 });
 
 export const TypographyAlbum = styled(Typography)<{ component?: React.ElementType }>({
-  marginTop: '2rem'
+  marginTop: '2rem',
+  color: '#1C1C1C'
 });
 
 export const TypographyCopyright = styled(Typography)<{ component?: React.ElementType }>({
-  textAlign: 'center'
+  textAlign: 'center',
+  color: '#1C1C1C'
 });
