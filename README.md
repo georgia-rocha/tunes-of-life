@@ -1,11 +1,34 @@
 # Tunes of Life
 
-## Video de Demonstração
+<details>
+  <summary><strong>Imagens da Aplicação</strong></summary>
 
-<video width="320" height="240" controls>
-  <source src='video.mp4' type="video/mp4">
-  Seu navegador não suporta o elemento de vídeo.
-</video>
+  ## Login
+  
+  ![login-tunes](loginTunes.png)
+
+  ## Tela Principal (Search)
+  
+  ![search](principalTunes.png)
+
+  ## Tela do Álbum
+  
+  ![album](albumTunes.png)
+
+  ## Tela de Favoritos
+  
+  ![favorites](favorites.png)
+
+  ## Componente menu
+  
+  ![menu](menu.png)
+
+  ## Componenrte modal EditProfile
+  
+  ![editProfile](modal.png)
+
+</details>
+
 
 
 ## Visão Geral
