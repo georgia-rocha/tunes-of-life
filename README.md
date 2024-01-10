@@ -29,7 +29,7 @@
 
 </details>
 
-
+[Link Deploy](tunes-of-life.vercel.app)
 
 ## Visão Geral
 
