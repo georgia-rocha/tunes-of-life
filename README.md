@@ -1,6 +1,5 @@
 # Tunes of Life
 
-<details>
   <summary><strong>Imagens da Aplicação</strong></summary>
 
   ## Login
@@ -27,7 +26,6 @@
   
   ![editProfile](modal.png)
 
-</details>
 
 [Link Deploy](tunes-of-life.vercel.app)
 
