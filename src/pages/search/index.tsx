@@ -1,54 +1,75 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Header from '@/components/Header';
-import { Avatar, Box, Container, Grid, Typography } from '@mui/material';
+import { Grid, ListItemAvatar, Typography } from '@mui/material';
 import { SearchProps } from '../../interfaces';
 import { useRouter } from 'next/router';
+import { BoxSearch, ContainerSearch, ListSearch, ListItemSearch, AvatarSearch, BoxList, TypographyList } from '../../styles/Search';
 
-export default function Search() {
-  const search: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
-  const router = useRouter();
-  useEffect(() => {
-    console.log(search, 'dataaaaa');
-  }, [search]);
+const Search: React.FC = () => {
+  const searchState: SearchProps = useSelector((rootReducer: any) => rootReducer.searchReducer);
+  const searchLocalStorage = typeof window !== 'undefined' ?  JSON.parse(localStorage.getItem('search') || 'null') : null;
   
-  const data = search.data.result;
+  const [search, setSearch] = useState<SearchProps>({ data: { term: '', result: [] } });
+
+  const getSearch = () => {
+    if (searchState){
+      setSearch(searchState);      
+    }    
+    setSearch(searchLocalStorage);
+  };
+ 
+  useEffect(() => {
+    getSearch();
+  }, [search?.data?.term]);
+
+  const data = search?.data?.result;
+  
+  const router = useRouter();
 
   return (
-    <Box>
+    <BoxSearch>
       <Header />
-      <Container maxWidth={false} style={{ marginTop: '0.5rem', width: '100%' }}>
-        {search && data.length > 0 ? (
+      <ContainerSearch maxWidth={false}>
+        {search && data && data.length > 0 ? (
           <Grid container >
-            <Typography variant="button" gutterBottom>
+            { search.data.term.length > 1 && (
+              <Typography
+              variant="h5"
+              component="caption"
+              gutterBottom
+            >
               {`Resultado de álbuns de: ${search.data.term}`}
-            </Typography>
-            <Grid container spacing={2}>
-              {data.map((term: any, index: number) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                  <Box
-                    sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', borderRadius: 2, height: '14rem', '&:hover': { backgroundColor: '#bcaaa4' } }}
-                    onClick={() => router.push(`/album/${term.collectionId}`)}
-                  >
-                    <Avatar src={term.artworkUrl100} alt={term.collectionName} sx={{ width: 75, height: 75, margin: 1 }} />
-                    <Typography variant="caption" gutterBottom>
-                      {term.artistName}
-                    </Typography>
-                    <Typography variant="button" gutterBottom sx={{ textAlign: 'center'}}>
-                      {term.collectionCensoredName}
-                    </Typography>
-                    <Typography variant="caption" gutterBottom>
-                      {term.primaryGenreName}
-                    </Typography>
-                  </Box>
-                </Grid>
+            </Typography> ) 
+            }
+            
+            <ListSearch>
+              {data?.map((term: any, index: number) => (
+                <ListItemSearch
+                  key={index}
+                  onClick={() => router.push(`/album/${term.collectionId}`)}
+                >
+                  <ListItemAvatar>
+                    <AvatarSearch src={term.artworkUrl100} alt={term.collectionName}/>
+                  </ListItemAvatar>
+                  <BoxList>
+                    <Typography variant="button">{term.collectionCensoredName}</Typography>
+                    <Typography variant="caption">{term.artistName}</Typography>
+                  </BoxList>
+                </ListItemSearch>
               ))}
-            </Grid>
+            </ListSearch>
           </Grid>
         ) : (
-          <Typography variant="body1">Nenhum álbum foi encontrado</Typography>
+          <TypographyList
+            variant="h5"
+            gutterBottom
+          >
+            Nenhum álbum foi encontrado
+          </TypographyList>
         )}
-      </Container>
-    </Box>
+      </ContainerSearch>
+    </BoxSearch>
   );
 };
+export default Search;

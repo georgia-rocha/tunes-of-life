@@ -117,3 +117,5 @@ export const itemData = [
     title: 'mm',
   },
 ];
+
+export const fractalFavoritePage = 'https://mir-s3-cdn-cf.behance.net/project_modules/disp/9b76f717829361.562bfd0b02901.gif';

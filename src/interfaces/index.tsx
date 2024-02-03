@@ -14,3 +14,29 @@ export interface SearchProps {
     result: []
   }
 };
+
+export interface Music {
+  id: number;
+  artistName: string;
+  collectionName: string;
+  artworkUrl100: string;
+  previewUrl: string;
+  trackId: number;
+  trackCensoredName: string;
+  copyright: string;
+}
+
+export interface CardMusicProps {
+  musics: Music[],
+};
+
+export interface ListItemCardProps {
+  currentPath: string;
+  index: number;
+}
+
+export interface UserType {
+  name: string;
+  password: string;
+  image: string;
+}

@@ -1,6 +1,6 @@
-import { Html, Head, Main, NextScript } from 'next/document'
- 
-export default function Document() {
+import { Html, Head, Main, NextScript } from 'next/document';
+
+const Document: React.FC = () => {
   return (
     <Html lang='pt-BR'>
       <Head />
@@ -9,5 +9,7 @@ export default function Document() {
         <NextScript />
       </body>
     </Html>
-  )
-}
+  );
+};
+
+export default Document;

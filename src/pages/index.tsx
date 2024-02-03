@@ -1,4 +1,4 @@
-import React, { useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useRouter } from 'next/router';
@@ -6,15 +6,19 @@ import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { GET_USER } from '../redux/actionTypes/user';
 import { itemData } from '../utils';
-import { Box } from '@mui/material';
 import Input from '@mui/material/Input';
 import { useDispatch } from 'react-redux';
 import { SrcSetType } from '../interfaces';
+import '../app/globals.css';
+import { BoxForm, BoxImage, LoginContainer, Tittle } from '../styles/Login';
+import { GET_SEARCH } from '@/redux/actionTypes/search';
+import { allFetchAPI } from '../utils/fetchAPI';
 
-export default function Login() {
+const Login: React.FC = () => {
   const [validateName, setValidateName] = useState<boolean>(false);
   const [validatePassword, setValidatePassword] = useState<boolean>(false);
   const [stateButton, setStateButton] = useState<boolean>(true);
+  const [search, setSearch] = useState({ term: '', result: [] });
   const [user, setUser] = useState({
     name: '',
     password: '',
@@ -22,7 +26,7 @@ export default function Login() {
   });
 
   const dispatch = useDispatch();
- 
+
   const router = useRouter();
 
   const imageListRef = useRef<HTMLDivElement | null>(null);
@@ -36,24 +40,25 @@ export default function Login() {
         scrollContainer.scrollTop += scrollAmount;
       }
     };
-    const scrollInterval = setInterval(scrollToBottom, 1000);
+    const scrollInterval = setInterval(scrollToBottom, 100);
 
     return () => clearInterval(scrollInterval);
   }, []);
-  
+
   const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
-    const regexName = /^.{4,}$/; 
+    const regexName = /^.{3,}$/;
     const userName = regexName.test(value);
-    
+
     if (userName) {
       setUser((prevUser) => ({
         ...prevUser,
         name: value,
       }));
-      setValidateName(true);
+      setValidateName(userName);
     } else {
       console.error('Invalid UserName');
+      setValidateName(false);
     };
     updateButtonState();
   };
@@ -61,26 +66,52 @@ export default function Login() {
   const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
     // const regexPassword = /^(?=.*[A-Za-z0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{8,}$/;
-    const regexPassword = /^.{6,}$/;
+    const regexPassword = /^.{5,}$/;
     const userPassword = regexPassword.test(value);
     if (userPassword) {
       setUser((prevUser) => ({
         ...prevUser,
         password: value,
       }));
-      setValidatePassword(true);
+      setValidatePassword(userPassword);
     } else {
       console.error('Invalid UserPassword');
+      setValidatePassword(false);
     };
     updateButtonState();
   };
 
   const updateButtonState = (): void => {
-   if (validateName && validatePassword) {
-    setStateButton(false);
-   };
+    if (validateName && validatePassword) {      
+      setStateButton(false);
+    } else {
+      setStateButton(true);
+    }
   };
-  
+
+  const handleLetterSearch = async () => {
+    if (!search.result.length) {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const indexLetter = Math.floor(Math.random() * alphabet.length);
+      const data = await allFetchAPI(alphabet.charAt(indexLetter));
+      const obj = {
+        term: alphabet.charAt(indexLetter),
+        result: data,
+      };
+      dispatch({
+        type: GET_SEARCH,
+        payload: obj,
+      });
+      const savedData = {
+        data: {
+          term: obj.term,
+          result: obj.result,
+        }
+      };
+      localStorage.setItem('search', JSON.stringify(savedData));
+    };
+  };
+
   const buttonSubmit = (): void => {
     event?.preventDefault();
     if (user.name && user.password) {
@@ -88,7 +119,9 @@ export default function Login() {
         type: GET_USER,
         payload: user,
       });
+      localStorage.setItem('user', JSON.stringify(user));
     };
+    handleLetterSearch();
     router.push('/search');
   };
 
@@ -99,11 +132,14 @@ export default function Login() {
     };
   };
 
+  useEffect(() => {
+    updateButtonState();
+  }, [validateName, validatePassword]);
+  
   return (
-  <div className="flex justify-around items-center h-screen bg-orange-50">
-     <div
+    <LoginContainer>
+      <BoxImage
         ref={imageListRef}
-        style={{ width: '50vw', height: '80vh', overflow: 'hidden', scrollBehavior: 'smooth' }}
       >
         <ImageList variant="quilted" cols={4} rowHeight={121}>
           {itemData.map((item, index) => (
@@ -116,24 +152,36 @@ export default function Login() {
             </ImageListItem>
           ))}
         </ImageList>
-      </div>
-    <Box component="form"
-      sx={{ width: '30vw', height: '80vh', justifyContent: 'center'}}
-      noValidate
-      autoComplete="off" className="flex flex-col">
-      <Input id="component-simple" onChange={handleChangeName} placeholder="Digite seu User" className="mb-5" />
-      <Input id="component-simple"  type="password" onChange={handleChangePassword} placeholder="Digite seu Password" />
-      <button
-        type="submit"
-        className={`bg-yellow-900 hover:bg-yellow-800 mt-5 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
-          stateButton ? 'disabled:bg-gray-300 cursor-not-allowed' : ''
-        }`}
-        disabled={stateButton}
-        onClick={buttonSubmit}
+      </BoxImage>
+      <BoxForm
+        component="form"
       >
-        Entrar
-      </button>
-    </Box>
-  </div>
+        <Tittle
+          variant="h5"
+          gutterBottom
+        >
+          Tunes of Life
+        </Tittle>
+        <Input
+          onChange={handleChangeName}
+          placeholder="Digite seu User"
+          className="mb-5"
+        />
+        <Input
+          type="password"
+          onChange={handleChangePassword}
+          placeholder="Digite seu Password"
+        />
+        <button
+          type="submit"
+          className={`button-login ${stateButton ? 'button-disabled' : ''}`}
+          disabled={stateButton}
+          onClick={buttonSubmit}
+        >
+          Entrar
+        </button>
+      </BoxForm>
+    </LoginContainer>
   );
 };
+export default Login;
